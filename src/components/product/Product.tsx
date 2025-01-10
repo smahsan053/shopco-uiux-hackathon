@@ -1,6 +1,10 @@
 import Image from "next/image";
 import React from "react";
 import StarRating from "../feedback/StarRating";
+import ProductSizeButtons from "./ProductSizeButtons";
+import ColorSelector from "./ColorSelector";
+import ProductQuantity from "./ProductQuantity";
+
 interface PropType {
   image1: string;
   image2: string;
@@ -14,8 +18,8 @@ interface PropType {
 }
 function Product(props: PropType) {
   return (
-    <div className="relative w-full flex flex-col lg:flex-row items-center lg:items-start justify-center lg:justify-around xl:justify-between gap-4 lg:gap-8 mb-12 ">
-      <div className="relative flex flex-col lg:flex-row gap-2 xl:gap-8 xl:left-20 2xl:left-40">
+    <div className="w-full flex flex-col lg:flex-row items-center lg:items-start justify-center lg:justify-around xl:justify-between gap-4 lg:gap-8 mb-12 ">
+      <div className="flex flex-col lg:flex-row gap-2 xl:gap-8">
         <div className="flex flex-row lg:flex-col gap-1 lg:gap-4 order-2 lg:order-1 ">
           <div className="bg-[#F0EEED] rounded-2xl flex justify-center items-center">
             <Image src={props.image2} alt="image2" width={152} height={167} />
@@ -33,7 +37,11 @@ function Product(props: PropType) {
       </div>
 
       <div className="relative xl:right-20 flex w-screen lg:w-[36%] flex-col items-start justify-center gap-2 ml-12">
-        <h1 className={`text-4xl font-bold text-nowrap`}>{props.itemName}</h1>
+        <h1
+          className={`text-2xl md:text-4xl font-bold text-wrap md:text-nowrap font-integralcf`}
+        >
+          {props.itemName}
+        </h1>
         <div className="flex gap-2 items-center justify-start mb-2 mt-1">
           <StarRating rating={props.rating} />
           {props.rating}/5
@@ -73,11 +81,7 @@ function Product(props: PropType) {
           >
             Select Colors:{" "}
           </h3>
-          <div className="flex gap-2 items-center justify-start">
-            <div className="rounded-full w-5 h-5 bg-[#4F4631] border border-black"></div>
-            <div className="rounded-full w-5 h-5 bg-[#314F4A] border border-black"></div>
-            <div className="rounded-full w-5 h-5 bg-[#31344F] border border-black"></div>
-          </div>
+          <ColorSelector />
         </div>
         <div className="border-t border-black border-opacity-50 w-[90%] pb-4"></div>
         <div className="flex flex-col gap-6 mb-3">
@@ -87,36 +91,11 @@ function Product(props: PropType) {
           >
             Choose Size{" "}
           </h3>
-          <div className="flex gap-4">
-            <div
-              className={`px-6 py-3 w-24 h-12 rounded-full text-base opacity-60 font-medium  flex justify-center items-center bg-[#F0F0F0] cursor-pointer text-nowrap`}
-            >
-              Small
-            </div>
-            <div
-              className={`px-6 py-3 w-24 h-12 rounded-full text-base opacity-60 font-medium  flex justify-center items-center bg-[#F0F0F0] cursor-pointer text-nowrap`}
-            >
-              Medium
-            </div>
-            <div
-              className={`px-6 py-3 w-24 h-12 rounded-full text-base font-medium  flex justify-center items-center bg-black text-white cursor-pointer text-nowrap`}
-            >
-              Large
-            </div>
-            <div
-              className={`px-6 py-3 w-24 h-12 rounded-full text-base opacity-60 font-medium  flex justify-center items-center bg-[#F0F0F0] cursor-pointer text-nowrap`}
-            >
-              X-Large
-            </div>
-          </div>
+          <ProductSizeButtons />
         </div>
         <div className="border-t border-black border-opacity-50 w-[90%] pb-4"></div>
         <div className="flex justify-center items-center gap-6">
-          <div className="bg-[#F0F0F0] px-5 py-3 rounded-full w-32 h-11 flex justify-around items-center">
-            <h1>+</h1>
-            <h1>1</h1>
-            <h1>-</h1>
-          </div>
+          <ProductQuantity />
           <button className="bg-black text-white rounded-full w-72 lg:w-[340px] h-[52px]">
             Add to Cart
           </button>

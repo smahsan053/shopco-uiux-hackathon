@@ -2,12 +2,12 @@ import Image from "next/image";
 
 const Footer = () => {
   return (
-    <footer className="bg-[#F0F0F0] text-black text-opacity-60 px-6 py-12">
+    <footer className="bg-[#F0F0F0] text-black text-opacity-60 px-6 pt-32 py-12">
       {/* Main Footer Content */}
       <div className="grid gap-8 grid-cols-12 lg:grid-cols-12 lg:gap-10">
         {/* Column 1 */}
         <div className="col-span-12 lg:col-span-2 lg:col-start-2">
-          <h1 className="font-bold text-2xl text-black">SHOP.CO</h1>
+          <h1 className="font-bold font-integralcf text-2xl text-black">SHOP.CO</h1>
           <p className="mt-4">
             We have clothes that suit your style and which you’re proud to wear.
             From women to men.
@@ -99,7 +99,12 @@ const Footer = () => {
             width={36}
             height={24}
           />
-          <Image src="/payment/paypal.png" alt="paypal" width={36} height={24} />
+          <Image
+            src="/payment/paypal.png"
+            alt="paypal"
+            width={36}
+            height={24}
+          />
           <Image
             src="/payment/googlepay.png"
             alt="Google Pay"

@@ -1,6 +1,8 @@
 import React from "react";
 import { items } from "@/app/shop/[id]/page";
 import Card from "@/components/itemcards/Card";
+import Container from "../ui/Container";
+import Link from "next/link";
 interface PropType {
   section: string;
   heading: string;
@@ -8,11 +10,11 @@ interface PropType {
 }
 function DisplayCard(props: PropType) {
   return (
-    <div className="relative flex flex-col items-center justify-center mt-6">
-      <h1 className="font-bold text-5xl text-wrap md:text-nowrap text-center ">
+    <Container className="mt-10 flex flex-col md:items-center">
+      <h1 className="font-bold text-3xl md:text-5xl text-wrap md:text-nowrap text-center font-integralcf">
         {props.heading}
       </h1>
-      <div className="flex items-center justify-start lg:justify-center gap-6 lg:gap-4 mt-12 mx-8 lg:mx-0">
+      <div className="flex items-center justify-start lg:justify-center gap-6 lg:gap-4 mt-12">
         {items
           .filter((item) => item.section === props.section)
           .map((item) => (
@@ -29,13 +31,16 @@ function DisplayCard(props: PropType) {
           ))}
       </div>
       {props.button ? (
-        <div className="border border-black w-[230px] h-12 rounded-full flex justify-center items-center mt-6 mb-4">
+        <Link
+          href={"/shop"}
+          className="border border-black hover:bg-black/5 active:bg-transparent w-full md:w-[230px] h-12 rounded-full flex justify-center items-center mt-6 mb-4"
+        >
           View All
-        </div>
+        </Link>
       ) : (
         ""
       )}
-    </div>
+    </Container>
   );
 }
 

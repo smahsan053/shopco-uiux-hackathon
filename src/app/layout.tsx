@@ -1,19 +1,21 @@
 import type { Metadata } from "next";
-import localFont from "next/font/local";
-import "./globals.css";
+import { Geist, Geist_Mono } from "next/font/google";
+import "@/styles/globals.css";
+import { integralCF, satoshi } from "@/styles/fonts/fonts";
 import TopHeader from "@/components/header/TopHeader";
 import Header from "@/components/header/Header";
 import Footer from "@/components/footer/Footer";
+import LastOffer from "@/components/offers/LastOffer";
+import Container from "@/components/ui/Container";
 
-const geistSans = localFont({
-  src: "./fonts/GeistVF.woff",
+const geistSans = Geist({
   variable: "--font-geist-sans",
-  weight: "100 900",
+  subsets: ["latin"],
 });
-const geistMono = localFont({
-  src: "./fonts/GeistMonoVF.woff",
+
+const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
-  weight: "100 900",
+  subsets: ["latin"],
 });
 
 export const metadata: Metadata = {
@@ -29,13 +31,14 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistMono.variable} ${geistSans.variable} ${satoshi.className} ${integralCF.variable} antialiased`}
       >
-        {" "}
         <TopHeader />
         <Header />
-        <div className="border-t mt-4 border-button opacity-50"></div>
         {children}
+        <Container className="relative -bottom-24">
+          <LastOffer />
+        </Container>
         <Footer />
       </body>
     </html>

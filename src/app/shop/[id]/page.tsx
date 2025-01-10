@@ -2,11 +2,9 @@
 
 import { BreadCrumb } from "@/components/BreadCrumb";
 import Product from "@/components/product/Product";
-import Image from "next/image";
-import { customerResponse } from "@/components/feedback/Feedback";
-import StarRating from "@/components/feedback/StarRating";
-import LastOffer from "@/components/offers/LastOffer";
+import FeedbackTabs from "@/components/feedback/FeedbackTabs";
 import DisplayCard from "@/components/itemcards/DisplayCard";
+import Container from "@/components/ui/Container";
 interface Item {
   id: string;
   itemName: string;
@@ -190,7 +188,7 @@ export default async function ProductPage(props: {
   const params = await props.params;
   const id = params.id;
   return (
-    <div className="relative overflow-x-hidden">
+    <Container className="relative overflow-x-hidden">
       {items.map((item) =>
         item.id === id ? (
           <div key={item.id} className="flex flex-col gap-14">
@@ -211,98 +209,12 @@ export default async function ProductPage(props: {
           ""
         )
       )}
-      <div className="flex flex-col justify-center items-center">
-        <div className="font-medium text-xl flex justify-center items-center">
-          <div className="flex justify-center items-center text-center gap-4 overflow-hidden">
-            <div className="mb-8 w-[250px] sm:w-[300px] md:w-[350px] lg:w-[400px]">
-              <h2 className="opacity-60 pb-10">Product Details</h2>
-              <div className="border-t w-full border-black border-opacity-30 pb-4"></div>
-            </div>
-
-            <div className="mb-8 w-[250px] sm:w-[300px] md:w-[350px] lg:w-[400px]">
-              <h2 className="pb-10 text-nowrap">Rating & Reviews</h2>
-              <div className="border-t w-full border-black pb-4"></div>
-            </div>
-
-            <div className="mb-8 w-[250px] sm:w-[300px] md:w-[350px] lg:w-[400px]">
-              <h2 className="opacity-60 pb-10">FAQs</h2>
-              <div className="border-t w-full border-black border-opacity-30 pb-4"></div>
-            </div>
-          </div>
-        </div>
-
-        <div className="flex justify-center items-center w-full">
-          <div className="flex justify-between items-center w-full max-w-7xl">
-            <h2 className="font-bold text-2xl ml-6">All Reviews (45)</h2>
-            <div className="flex gap-6 items-center">
-              <Image
-                src="/customerfeedback/filter.png"
-                alt="filter"
-                width={48}
-                height={48}
-              />
-              <div
-                className={`hidden px-6 py-3 w-24 h-12 rounded-full text-base opacity-60 font-medium nd:flex justify-center items-center bg-[#F0F0F0] cursor-pointer text-nowrap`}
-              >
-                Latest
-                <Image
-                  aria-hidden
-                  src="/header/dropdown.svg"
-                  alt="cross"
-                  width={16}
-                  height={16}
-                />
-              </div>
-              <button className="bg-black text-white rounded-full w-40 px-5 py-4">
-                Write a Review
-              </button>
-            </div>
-          </div>
-        </div>
-        <div className=" grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:mx-28 mx-3 mt-5">
-          {customerResponse.slice(0, 6).map((response, index) => (
-            <div
-              key={index}
-              className="border border-black w-full h-[260px] rounded-2xl flex flex-col gap-6"
-            >
-              <div className="mt-8 px-8 space-y-6">
-                <div className="flex justify-between">
-                  <StarRating rating={response.stars} />
-                  <div className="relative text-5xl opacity-60 leading-3">
-                    ...
-                  </div>
-                </div>
-                <h1 className="font-bold text-lg mt-2 flex justify-start items-center gap-4">
-                  {response.name}
-                  <Image
-                    src={"/customerfeedback/greentick.png"}
-                    alt="greentick"
-                    width={20}
-                    height={20}
-                  />
-                </h1>
-                <p className="font-normal text-sm opacity-70 mt-2">
-                  {response.comment}
-                </p>
-                <p className="font-bold text-sm opacity-70 mt-2">
-                  Posted on August 16, 2023
-                </p>
-              </div>
-            </div>
-          ))}
-        </div>
-        <div className="border border-black w-[230px] h-12 rounded-full flex justify-center items-center mt-4 mb-4">
-          Load More Reviews
-        </div>
-        <div className="space-y-8">
-          <DisplayCard
-            heading="You might also like"
-            button={false}
-            section="recommeneded"
-          />
-          <LastOffer />
-        </div>
-      </div>
-    </div>
+      <FeedbackTabs />
+      <DisplayCard
+        section="recommeneded"
+        heading="You might also like"
+        button={false}
+      />
+    </Container>
   );
 }

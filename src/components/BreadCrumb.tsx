@@ -9,7 +9,7 @@ interface PropType {
 }
 export function BreadCrumb(props: PropType) {
   return (
-    <div className="mt-12 w-[80%] mx-auto">
+    <div className="mt-12">
       <Breadcrumb>
         <BreadcrumbList>
           {props.location.map((location, index) => (
