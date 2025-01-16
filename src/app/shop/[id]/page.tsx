@@ -1,21 +1,20 @@
 // src/app/product/[id]/page.tsx
-
 import { BreadCrumb } from "@/components/BreadCrumb";
 import Product from "@/components/product/Product";
 import FeedbackTabs from "@/components/feedback/FeedbackTabs";
 import DisplayCard from "@/components/itemcards/DisplayCard";
 import Container from "@/components/ui/Container";
-interface Item {
+export interface Item {
   id: string;
   itemName: string;
   image1: string;
   image2: string;
   image3: string;
   image4: string;
-  actualPrice: string;
-  discountedPrice: string;
+  actualPrice: number;
+  discountedPrice?: number;
   rating: number;
-  discountpercent?: string;
+  discountpercent?: number;
   section?: string;
 }
 export const items: Item[] = [
@@ -26,10 +25,10 @@ export const items: Item[] = [
     image2: "/item/graphictshirt2.png",
     image3: "/item/graphictshirt3.png",
     image4: "/item/graphictshirt4.png",
-    discountedPrice: "$260.00",
-    actualPrice: "$300",
+    discountedPrice: 260.0,
+    actualPrice: 300.0,
     rating: 4.5,
-    discountpercent: "-40",
+    discountpercent: 40,
   },
   {
     id: "2",
@@ -38,8 +37,7 @@ export const items: Item[] = [
     image2: "/item/tshirt.png",
     image3: "/item/tshirt.png",
     image4: "/item/tshirt.png",
-    discountedPrice: "$120.00",
-    actualPrice: " ",
+    actualPrice: 120.0,
     rating: 3.5,
     section: "newArrivals",
   },
@@ -50,10 +48,10 @@ export const items: Item[] = [
     image2: "/item/jeans.png",
     image3: "/item/jeans.png",
     image4: "/item/jeans.png",
-    discountedPrice: "$240.00",
-    actualPrice: "$260",
+    discountedPrice: 240.0,
+    actualPrice: 260,
     rating: 4.5,
-    discountpercent: "-20",
+    discountpercent: 20,
     section: "newArrivals",
   },
   {
@@ -63,8 +61,7 @@ export const items: Item[] = [
     image2: "/item/chekeredshirt.png",
     image3: "/item/chekeredshirt.png",
     image4: "/item/chekeredshirt.png",
-    discountedPrice: "$180.00",
-    actualPrice: " ",
+    actualPrice: 180.0,
     rating: 4.5,
     section: "newArrivals",
   },
@@ -75,10 +72,10 @@ export const items: Item[] = [
     image2: "/item/stripedshirt.png",
     image3: "/item/stripedshirt.png",
     image4: "/item/stripedshirt.png",
-    discountedPrice: "$160.00",
-    actualPrice: "$130",
+    discountedPrice: 160.0,
+    actualPrice: 130,
     rating: 4.5,
-    discountpercent: "-30",
+    discountpercent: 30,
     section: "newArrivals",
   },
   {
@@ -88,10 +85,10 @@ export const items: Item[] = [
     image2: "/item/vstripedshirt.png",
     image3: "/item/vstripedshirt.png",
     image4: "/item/vstripedshirt.png",
-    discountedPrice: "$212.00",
-    actualPrice: "$232",
+    discountedPrice: 212.0,
+    actualPrice: 232,
     rating: 5,
-    discountpercent: "-20",
+    discountpercent: 20,
     section: "topSellings",
   },
   {
@@ -101,8 +98,7 @@ export const items: Item[] = [
     image2: "/item/couragetshirt.png",
     image3: "/item/couragetshirt.png",
     image4: "/item/couragetshirt.png",
-    discountedPrice: "$145.00",
-    actualPrice: " ",
+    actualPrice: 145.0,
     rating: 4,
     section: "topSellings",
   },
@@ -113,8 +109,7 @@ export const items: Item[] = [
     image2: "/item/shorts.png",
     image3: "/item/shorts.png",
     image4: "/item/shorts.png",
-    discountedPrice: "$80.00",
-    actualPrice: " ",
+    actualPrice: 80.0,
     rating: 3,
     section: "topSellings",
   },
@@ -125,8 +120,7 @@ export const items: Item[] = [
     image2: "/item/skinnyjeans.png",
     image3: "/item/skinnyjeans.png",
     image4: "/item/skinnyjeans.png",
-    discountedPrice: "$210.00",
-    actualPrice: " ",
+    actualPrice: 210.0,
     rating: 4.5,
     section: "topSellings",
   },
@@ -137,10 +131,10 @@ export const items: Item[] = [
     image2: "/item/polocontrast.png",
     image3: "/item/polocontrast.png",
     image4: "/item/polocontrast.png",
-    discountedPrice: "$212.00",
-    actualPrice: "$242",
+    discountedPrice: 212.0,
+    actualPrice: 242,
     rating: 4.0,
-    discountpercent: "-29",
+    discountpercent: 29,
     section: "recommeneded",
   },
   {
@@ -150,8 +144,7 @@ export const items: Item[] = [
     image2: "/item/gradienttshirt.png",
     image3: "/item/gradienttshirt.png",
     image4: "/item/gradienttshirt.png",
-    discountedPrice: "$145.00",
-    actualPrice: " ",
+    actualPrice: 145.0,
     rating: 3.5,
     section: "recommeneded",
   },
@@ -162,8 +155,7 @@ export const items: Item[] = [
     image2: "/item/polotipping.png",
     image3: "/item/polotipping.png",
     image4: "/item/polotipping.png",
-    discountedPrice: "$180.00",
-    actualPrice: " ",
+    actualPrice: 180.0,
     rating: 4.5,
     section: "recommeneded",
   },
@@ -174,10 +166,10 @@ export const items: Item[] = [
     image2: "/item/blacktshirt.png",
     image3: "/item/blacktshirt.png",
     image4: "/item/blacktshirt.png",
-    discountedPrice: "$120.00",
-    actualPrice: "$150",
+    discountedPrice: 120.0,
+    actualPrice: 150,
     rating: 5,
-    discountpercent: "-30",
+    discountpercent: 30,
     section: "recommeneded",
   },
 ];
@@ -193,17 +185,7 @@ export default async function ProductPage(props: {
         item.id === id ? (
           <div key={item.id} className="flex flex-col gap-14">
             <BreadCrumb location={["Home", "Shop", "Men", "T-shirts"]} />
-            <Product
-              image1={item.image1}
-              image2={item.image2}
-              image3={item.image3}
-              image4={item.image4}
-              itemName={item.itemName}
-              rating={item.rating}
-              discountedPrice={item.discountedPrice}
-              actualPrice={item.actualPrice}
-              discountpercent={item.discountpercent}
-            />
+            <Product product={item} />
           </div>
         ) : (
           ""

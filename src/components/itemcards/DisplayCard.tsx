@@ -1,8 +1,8 @@
 import React from "react";
 import { items } from "@/app/shop/[id]/page";
 import Card from "@/components/itemcards/Card";
-import Container from "../ui/Container";
 import Link from "next/link";
+import Container from "../ui/Container";
 interface PropType {
   section: string;
   heading: string;
@@ -19,14 +19,7 @@ function DisplayCard(props: PropType) {
           .filter((item) => item.section === props.section)
           .map((item) => (
             <Card
-              id={item.id}
-              key={item.id}
-              itemImageLink={item.image1}
-              itemName={item.itemName}
-              actualPrice={item.actualPrice}
-              discountedPrice={item.discountedPrice}
-              rating={item.rating}
-              discount={item.discountpercent}
+              product={item} key={item.id}
             />
           ))}
       </div>

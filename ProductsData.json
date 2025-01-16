@@ -1,0 +1,22 @@
+[
+  {
+    "itemName": "SKINNY FIT JEANS",
+    "actualPrice": 100,
+    "discountedPrice": 80,
+    "discountpercent": 20,
+    "rating": 3.5,
+    "section": "topSellings",
+    "category": ["Party"],
+    "image1": "jeans.png"
+  },
+  {
+    "itemName": "CHECKERED SHIRT",
+    "actualPrice": 150,
+    "discountedPrice": 135,
+    "discountpercent": 10,
+    "rating": 5,
+    "section": "newArrivals",
+    "category": ["Gym"],
+    "image1": "chekeredshirt.png"
+  }
+]

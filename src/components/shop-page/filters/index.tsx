@@ -6,13 +6,17 @@ import PriceSection from "@/components/shop-page/filters/PriceSection";
 import SizeSection from "@/components/shop-page/filters/SizeSection";
 import { Button } from "@/components/ui/button";
 
-const Filters = () => {
+const Filters = ({
+  setPriceRange,
+}: {
+  setPriceRange: React.Dispatch<React.SetStateAction<number[]>>;
+}) => {
   return (
     <>
       <hr className="border-t-black/10" />
       <CategoriesSection />
       <hr className="border-t-black/10" />
-      <PriceSection />
+      <PriceSection setPriceRange={setPriceRange} />
       <hr className="border-t-black/10" />
       <ColorsSection />
       <hr className="border-t-black/10" />

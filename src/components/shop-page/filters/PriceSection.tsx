@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import {
   Accordion,
@@ -7,7 +8,11 @@ import {
 } from "@/components/ui/accordion";
 import { Slider } from "@/components/ui/slider";
 
-const PriceSection = () => {
+const PriceSection = ({
+  setPriceRange,
+}: {
+  setPriceRange: React.Dispatch<React.SetStateAction<number[]>>;
+}) => {
   return (
     <Accordion type="single" collapsible defaultValue="filter-price">
       <AccordionItem value="filter-price" className="border-none">
@@ -15,7 +20,13 @@ const PriceSection = () => {
           Price
         </AccordionTrigger>
         <AccordionContent className="pt-4">
-          <Slider defaultValue={[50, 200]} min={0} max={250} step={1} />
+          <Slider
+            defaultValue={[110, 230]}
+            min={80}
+            max={260}
+            step={1}
+            onValueChange={setPriceRange}
+          />
           <div className="mb-3" />
         </AccordionContent>
       </AccordionItem>

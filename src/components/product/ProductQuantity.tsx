@@ -1,44 +1,41 @@
 "use client";
-import React, { useState } from "react";
+import React from "react";
 import { Button } from "../ui/button";
+import useCartStore from "@/store/CartStore";
+import { Item } from "@/app/shop/[id]/page";
 
-function ProductQuantity() {
-  const [value, setValue] = useState(0);
-
-  const handleDecrement = () => {
-    setValue((prevState) => (prevState > 0 ? prevState - 1 : prevState));
-  };
-  const handleIncrement = () => {
-    setValue((prevState) => prevState + 1);
-  };
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (value <= 0) setValue(0);
-    setValue(
-      Number.parseInt(e.target.value) > 0 ? Number.parseInt(e.target.value) : 0
-    );
-  };
+function ProductQuantity({ product }: { product: Item }) {
+  const addCartItem = useCartStore((state) => state.addCartItem);
+  const reduceItemCount = useCartStore((state) => state.reduceItemCount);
+  const cartItemsCount = useCartStore((state) => state.cartItemsCount(product.id));
+  console.log(cartItemsCount);
+  
   return (
     <div className="flex flex-row bg-[#F0F0F0] rounded-full">
       <Button
         variant={"secondary"}
         className="bg-[#F0F0F0] rounded-l-full"
-        onClick={handleDecrement}
-        disabled={value < 0}
+        onClick={() => {
+          reduceItemCount(product.id);
+        }}
+        disabled={cartItemsCount < 0}
       >
         -
       </Button>
       <input
         type="text"
         className="w-10 bg-transparent outline-none text-center"
-        value={value}
-        onChange={handleChange}
-        disabled={value < 0}
+        value={cartItemsCount}
+        disabled={cartItemsCount < 0}
+        readOnly
       />
       <Button
         variant={"secondary"}
         className="bg-[#F0F0F0] rounded-r-full"
-        onClick={handleIncrement}
-        disabled={value < 0}
+        onClick={() => {
+          addCartItem(product);
+        }}
+        disabled={cartItemsCount < 0}
       >
         +
       </Button>
