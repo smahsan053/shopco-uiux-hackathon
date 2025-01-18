@@ -14,7 +14,7 @@ export function BreadCrumb(props: PropType) {
         <BreadcrumbList>
           {props.location.map((location, index) => (
             <BreadcrumbItem key={index}>
-              <BreadcrumbLink href="/">{location}</BreadcrumbLink>
+              <BreadcrumbLink href={`/`}>{location}</BreadcrumbLink>
               {index !== props.location.length - 1 && "/"}
             </BreadcrumbItem>
           ))}

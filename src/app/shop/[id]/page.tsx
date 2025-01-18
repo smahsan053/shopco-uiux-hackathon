@@ -194,11 +194,7 @@ export default async function ProductPage(props: {
         )
       )}
       <FeedbackTabs />
-      <DisplayCard
-        section="recommeneded"
-        heading="You might also like"
-        button={false}
-      />
+      <DisplayCard heading="You might also like" button={false} id={id} />
     </Container>
   );
 }

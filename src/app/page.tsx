@@ -6,9 +6,9 @@ export default function Home() {
   return (
     <div className="relative overflow-x-hidden">
       <Hero />
-      <DisplayCard section="newArrivals" heading="NEW ARRIVALS" button={true} />
+      <DisplayCard isNew={true} heading="NEW ARRIVALS" button={true} />
       <div className="border-t my-5 w-[80%] mx-auto"></div>
-      <DisplayCard section="topSellings" heading="top selling" button={true} />
+      <DisplayCard isNew={false} heading="top selling" button={true} />
       <Category />
       <Feedback />
     </div>
