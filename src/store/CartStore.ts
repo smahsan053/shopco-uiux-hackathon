@@ -1,13 +1,13 @@
-import { Item } from "@/app/shop/[id]/page";
+import { CATALOG_QUERYResult } from "sanity.types";
 import { create } from "zustand";
 
 interface CartItems {
-    product: Item,
+    product: CATALOG_QUERYResult[0],
     quantity: number
 }
 interface CartState {
     cartItems: CartItems[],
-    addCartItem: (product: Item) => void
+    addCartItem: (product: CATALOG_QUERYResult[0]) => void
     reduceItemCount: (productId: string) => void
     removeCartItem: (productId: string) => void
     cartItemsCount: (productId: string) => number
@@ -20,12 +20,12 @@ const useCartStore = create<CartState>()((set, get) => ({
     addCartItem: (product) =>
         set((state) => {
             const existingItem = state.cartItems.find(
-                (item) => item.product.id === product.id
+                (item) => item.product._id === product._id
             );
             if (existingItem) {
                 return {
                     cartItems: state.cartItems.map((item) =>
-                        item.product.id === product.id
+                        item.product._id === product._id
                             ? { ...item, quantity: item.quantity + 1 }
                             : item
                     ),
@@ -36,31 +36,32 @@ const useCartStore = create<CartState>()((set, get) => ({
         }),
     reduceItemCount: (productId: string) =>
         set((state) => {
-            const existingItem = state.cartItems.find((item) => item.product.id === productId)
+            const existingItem = state.cartItems.find((item) => item.product._id === productId)
             if (existingItem) {
                 if (existingItem!.quantity > 1) {
                     return {
                         cartItems: state.cartItems.map((item) =>
-                            item.product.id === productId ? { ...item, quantity: item.quantity - 1 } : item
+                            item.product._id === productId ? { ...item, quantity: item.quantity - 1 } : item
                         )
                     }
                 } else {
-                    return { cartItems: state.cartItems.filter((item) => item.product.id !== productId) }
+                    return { cartItems: state.cartItems.filter((item) => item.product._id !== productId) }
                 }
             } else {
                 return { cartItems: state.cartItems }
             }
         }),
     removeCartItem: (productId: string) =>
-        set((state) => ({ cartItems: state.cartItems.filter((item) => item.product.id !== productId) })),
+        set((state) => ({ cartItems: state.cartItems.filter((item) => item.product._id !== productId) })),
     cartItemsCount: (productId: string) => {
-        const item = get().cartItems.find((item) => item.product.id === productId)
+        const item = get().cartItems.find((item) => item.product._id === productId)
         return item ? item.quantity : 0
     },
     getTotalPrice: () => {
-        const totalPrice = get().cartItems.map((item) => (item.product.discountedPrice ? item.product.discountedPrice * item.quantity : item.product.actualPrice * item.quantity)).reduce((prev, curr) => (prev + curr), 0)
+        const totalPrice = get().cartItems.map((item) => (item.product.discountPercent! > 0 ? Math.ceil(item.product.price! - (item.product.price! * item.product.discountPercent! / 100)) * item.quantity : item.product.price! * item.quantity)).reduce((prev, curr) => (prev + curr), 0)
         return totalPrice
     }
 }))
 
 export default useCartStore
+

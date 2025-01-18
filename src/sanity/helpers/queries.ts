@@ -21,3 +21,5 @@ export const PRODUCTS_QUERY = defineQuery(`*[_type == "product"]
 `)
 
 export const CATEGORIES_ID_QUERIES = defineQuery(`*[_type=='category']{"id":_id, category}`)
+
+export const CATALOG_QUERY = defineQuery(`*[_type=='catalog']`)

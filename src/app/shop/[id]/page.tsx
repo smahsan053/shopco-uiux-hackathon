@@ -4,6 +4,7 @@ import Product from "@/components/product/Product";
 import FeedbackTabs from "@/components/feedback/FeedbackTabs";
 import DisplayCard from "@/components/itemcards/DisplayCard";
 import Container from "@/components/ui/Container";
+import { getProductsCatalog } from "@/sanity/helpers";
 export interface Item {
   id: string;
   itemName: string;
@@ -179,13 +180,14 @@ export default async function ProductPage(props: {
   // You can directly access the `id` from the `params` object
   const params = await props.params;
   const id = params.id;
+  const catalog = await getProductsCatalog();
   return (
     <Container className="relative overflow-x-hidden">
-      {items.map((item) =>
-        item.id === id ? (
-          <div key={item.id} className="flex flex-col gap-14">
+      {catalog.map((product) =>
+        product._id === id ? (
+          <div key={product._id} className="flex flex-col gap-14">
             <BreadCrumb location={["Home", "Shop", "Men", "T-shirts"]} />
-            <Product product={item} />
+            <Product product={product} />
           </div>
         ) : (
           ""

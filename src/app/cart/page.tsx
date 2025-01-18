@@ -11,7 +11,7 @@ import Link from "next/link";
 function Cart() {
   const cartItems = useCartStore((state) => state.cartItems);
   const totalPrice = useCartStore((state) => state.getTotalPrice());
-  const totalDiscount = totalPrice * 0.2;
+  const totalDiscount = Math.ceil(totalPrice * 0.2);
   return (
     <Container>
       <BreadCrumb location={["Home", "Cart"]} />
@@ -21,7 +21,7 @@ function Cart() {
           <div className="flex flex-col lg:flex-row gap-5 mb-10">
             <div className="border border-black lg:w-[715px] rounded-2xl h-full">
               {cartItems.map((item, index) => (
-                <div key={item.product.id}>
+                <div key={item.product._id}>
                   <Card product={item.product} />
                   <div
                     className={`border-t ${cartItems.length === index + 1 ? "hidden" : ""}`}
@@ -50,7 +50,9 @@ function Cart() {
               <div className="border-t"></div>
               <div className="flex justify-between">
                 <h2 className="font-normal text-xl ">Total</h2>
-                <h2 className="font-bold text-xl">$467</h2>
+                <h2 className="font-bold text-xl">
+                  ${totalPrice - totalDiscount - 15}
+                </h2>
               </div>
               <div className=" flex items-center justify-between gap-2">
                 <input

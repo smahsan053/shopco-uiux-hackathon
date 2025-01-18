@@ -5,10 +5,11 @@ import StarRating from "../feedback/StarRating";
 import ProductSizeButtons from "./ProductSizeButtons";
 import ColorSelector from "./ColorSelector";
 import ProductQuantity from "./ProductQuantity";
-import { Item } from "@/app/shop/[id]/page";
 import useCartStore from "@/store/CartStore";
+import { CATALOG_QUERYResult } from "sanity.types";
+import { urlFor } from "@/sanity/lib/image";
 
-function Product({ product }: { product: Item }) {
+function Product({ product }: { product: CATALOG_QUERYResult[0] }) {
   // const { addCartItem } = useCartStore();
   const addCartItem = useCartStore((state) => state.addCartItem);
   const { cartItems } = useCartStore();
@@ -19,17 +20,37 @@ function Product({ product }: { product: Item }) {
       <div className="flex flex-col lg:flex-row gap-2 xl:gap-8">
         <div className="flex flex-row lg:flex-col gap-1 lg:gap-4 order-2 lg:order-1 ">
           <div className="bg-[#F0EEED] rounded-2xl flex justify-center items-center">
-            <Image src={product.image2} alt="image2" width={152} height={167} />
+            <Image
+              src={urlFor(product.imageUrl!).url()}
+              alt="image2"
+              width={152}
+              height={167}
+            />
           </div>
           <div className="bg-[#F0EEED] rounded-2xl flex justify-center items-center">
-            <Image src={product.image3} alt="image3" width={152} height={167} />
+            <Image
+              src={urlFor(product.imageUrl!).url()}
+              alt="image3"
+              width={152}
+              height={167}
+            />
           </div>
           <div className="bg-[#F0EEED] rounded-2xl flex justify-center items-center">
-            <Image src={product.image4} alt="image4" width={152} height={167} />
+            <Image
+              src={urlFor(product.imageUrl!).url()}
+              alt="image4"
+              width={152}
+              height={167}
+            />
           </div>
         </div>
         <div className="bg-[#F0EEED] rounded-2xl flex justify-center items-center order-1 lg:order-2">
-          <Image src={product.image1} alt="image5" width={444} height={530} />
+          <Image
+            src={urlFor(product.imageUrl!).url()}
+            alt="image5"
+            width={444}
+            height={530}
+          />
         </div>
       </div>
 
@@ -37,7 +58,7 @@ function Product({ product }: { product: Item }) {
         <h1
           className={`text-2xl md:text-4xl font-bold text-wrap md:text-nowrap font-integralcf`}
         >
-          {product.itemName}
+          {product.name}
         </h1>
         <div className="flex gap-2 items-center justify-start mb-2 mt-1">
           <StarRating rating={product.rating} />
@@ -49,19 +70,20 @@ function Product({ product }: { product: Item }) {
             style={{ letterSpacing: "3%" }}
           >
             $
-            {product.discountedPrice
-              ? product.discountedPrice
-              : product.actualPrice}
+            {product.discountPercent! > 0
+              ? product.price! -
+                Math.ceil((product.price! * product.discountPercent!) / 100)
+              : product.price}
           </h3>
           <h3
-            className={` font-bold text-3xl leading-6 line-through opacity-30 ${product.discountedPrice ? "" : "hidden"}`}
+            className={` font-bold text-3xl leading-6 line-through opacity-30 ${product.discountPercent! > 0 ? "" : "hidden"}`}
             style={{ letterSpacing: "3%" }}
           >
-            ${product.actualPrice}
+            ${product.price}
           </h3>
-          {product.discountpercent ? (
+          {product.discountPercent! > 0 ? (
             <div className="bg-red-300 px-4 py-1 text-red-700 rounded-full">
-              {product.discountpercent}%
+              {product.discountPercent!}%
             </div>
           ) : (
             ""
@@ -70,8 +92,7 @@ function Product({ product }: { product: Item }) {
         <p
           className={` font-normal text-sm leading-5 text-text2 mt-3 mb-3 text-center lg:text-start opacity-60 w-[90%]`}
         >
-          This graphic t-shirt which is perfect for any occasion. Crafted from a
-          soft and breathable fabric, it offers superior comfort and style.
+          {product.description}
         </p>
         <div className="border-t border-black border-opacity-50 w-[90%] pb-4"></div>
         <div className="flex flex-col items-start gap-2 mb-3">

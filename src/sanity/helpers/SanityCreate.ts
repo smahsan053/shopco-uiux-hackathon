@@ -4,6 +4,18 @@ import path, { basename } from "path";
 import { createReadStream } from "fs";
 import { createClient } from "next-sanity";
 
+interface ProductType {
+    name: string,
+    price: number,
+    category: string,
+    discountPercent: number,
+    isNew: boolean,
+    colors: string[],
+    sizes: string[],
+    description: string,
+    imageUrl: string
+
+}
 const client = createClient({
     projectId: "k8bpzkxi",
     dataset: "production",
@@ -11,6 +23,7 @@ const client = createClient({
     token: "skMuc5AKQcF3kAfnEkSeq4ZaZ7QmoYaYsRykHeOChitUCKAyq7q12mtxLwk9QdnEDa5QSBy1OwHnqTny9BZN0LFVR9q6on6hkhXH5JgDatt5v9afmZONMqaWc9EaGKMoEkRlQppQJrEIiXqki1m9xDz0JBk6ZXtA15U0ei30TJQ7SUwdAtfn",
     useCdn: true,
 })
+
 
 const UploadImage = async (imageName: string) => {
     try {
@@ -31,11 +44,35 @@ const SanityCreate = async (route: string) => {
         data = await Promise.all(ProductsData.map(async (item) => ({ ...item, image1: await UploadImage(item.image1) })))
     } else if (route === "categories") {
         data = CategoriesData
+    } else if (route === "api") {
+        const response = await fetch("https://template1-neon-nu.vercel.app/api/products")
+        data = await response.json()
+        data = await Promise.all(data.map(async (productData: ProductType) => {
+            try {
+                const imageResponse = await fetch(productData.imageUrl);
+
+                if (!imageResponse.ok) {
+                    throw new Error(`Failed to fetch image: ${productData.imageUrl}`);
+                }
+
+                const arrayBuffer = await imageResponse.arrayBuffer();
+                const imageBuffer = Buffer.from(arrayBuffer);
+                const imageAsset = await client.assets.upload("image", imageBuffer);
+
+                return {
+                    ...productData,
+                    imageUrl: imageAsset._id
+                };
+            } catch (error) {
+                console.error(`Error processing product ${productData.name}:`, error);
+                return productData;
+            }
+        }))
     } else {
         throw new Error("Invalid route provided.");
     }
 
-    fetch(`http://localhost:3000/api/${route}`, {
+    fetch(`http://localhost:3000/api/${route === "api" ? "catalog" : route}`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json"

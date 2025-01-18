@@ -21,9 +21,9 @@ const PriceSection = ({
         </AccordionTrigger>
         <AccordionContent className="pt-4">
           <Slider
-            defaultValue={[110, 230]}
-            min={80}
-            max={260}
+            defaultValue={[100, 250]}
+            min={50}
+            max={300}
             step={1}
             onValueChange={setPriceRange}
           />

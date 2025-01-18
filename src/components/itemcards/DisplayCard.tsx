@@ -8,7 +8,7 @@ interface PropType {
   heading: string;
   button: boolean;
 }
-function DisplayCard(props: PropType) {
+async function DisplayCard(props: PropType) {
   return (
     <Container className="mt-10 flex flex-col md:items-center">
       <h1 className="font-bold text-3xl md:text-5xl text-wrap md:text-nowrap text-center font-integralcf">
@@ -18,9 +18,7 @@ function DisplayCard(props: PropType) {
         {items
           .filter((item) => item.section === props.section)
           .map((item) => (
-            <Card
-              product={item} key={item.id}
-            />
+            <Card product={item} key={item.id} />
           ))}
       </div>
       {props.button ? (
