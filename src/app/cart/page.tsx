@@ -12,6 +12,8 @@ function Cart() {
   const cartItems = useCartStore((state) => state.cartItems);
   const totalPrice = useCartStore((state) => state.getTotalPrice());
   const totalDiscount = Math.ceil(totalPrice * 0.2);
+  console.log(cartItems);
+
   return (
     <Container>
       <BreadCrumb location={["Home", "Cart"]} />

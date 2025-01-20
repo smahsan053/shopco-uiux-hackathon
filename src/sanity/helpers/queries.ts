@@ -23,3 +23,7 @@ export const PRODUCTS_QUERY = defineQuery(`*[_type == "product"]
 export const CATEGORIES_ID_QUERIES = defineQuery(`*[_type=='category']{"id":_id, category}`)
 
 export const CATALOG_QUERY = defineQuery(`*[_type=='catalog']`)
+
+export const PRODUCT_SEARCH_QUERY = defineQuery(`*[_type=='catalog' && name match $searchParam] | order(name asc)`)
+
+export const CATEGORIES_QUERY = defineQuery(`*[_type=='catalog']{category} | order(name asc)`)

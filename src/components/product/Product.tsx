@@ -10,13 +10,14 @@ import { CATALOG_QUERYResult } from "sanity.types";
 import { urlFor } from "@/sanity/lib/image";
 
 function Product({ product }: { product: CATALOG_QUERYResult[0] }) {
-  // const { addCartItem } = useCartStore();
   const addCartItem = useCartStore((state) => state.addCartItem);
+  const color = useCartStore((state) => state.color);
+  const size = useCartStore((state) => state.size);
+
   const { cartItems } = useCartStore();
   console.log(cartItems);
-
   return (
-    <div className="w-full flex flex-col lg:flex-row items-center lg:items-start justify-center lg:justify-around xl:justify-between gap-4 lg:gap-8 mb-12 ">
+    <div className="w-full flex flex-col lg:flex-row items-center lg:items-start justify-center lg:justify-around xl:justify-between gap-4 lg:gap-8 mb-12 mt-6 ">
       <div className="flex flex-col lg:flex-row gap-2 xl:gap-8">
         <div className="flex flex-row lg:flex-col gap-1 lg:gap-4 order-2 lg:order-1 ">
           <div className="bg-[#F0EEED] rounded-2xl flex justify-center items-center">
@@ -102,7 +103,7 @@ function Product({ product }: { product: CATALOG_QUERYResult[0] }) {
           >
             Select Colors:{" "}
           </h3>
-          <ColorSelector />
+          <ColorSelector colors={product.colors!} />
         </div>
         <div className="border-t border-black border-opacity-50 w-[90%] pb-4"></div>
         <div className="flex flex-col gap-6 mb-3">
@@ -112,14 +113,14 @@ function Product({ product }: { product: CATALOG_QUERYResult[0] }) {
           >
             Choose Size{" "}
           </h3>
-          <ProductSizeButtons />
+          <ProductSizeButtons sizes={product.sizes!} />
         </div>
         <div className="border-t border-black border-opacity-50 w-[90%] pb-4"></div>
         <div className="flex justify-center items-center gap-6">
           <ProductQuantity product={product} />
           <button
             onClick={() => {
-              addCartItem(product);
+              addCartItem(product, size, color);
             }}
             className="bg-black text-white rounded-full w-72 lg:w-[340px] h-[52px]"
           >

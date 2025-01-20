@@ -1,5 +1,5 @@
 import { sanityFetch } from '@/sanity/lib/live'
-import { CATALOG_QUERY, CATEGORIES_ID_QUERIES, PRODUCTS_QUERY } from './queries'
+import { CATALOG_QUERY, CATEGORIES_ID_QUERIES, CATEGORIES_QUERY, PRODUCT_SEARCH_QUERY, PRODUCTS_QUERY } from './queries'
 
 export default async function getAllProducts() {
     try {
@@ -34,6 +34,34 @@ export async function getProductsCatalog() {
 
     } catch (error) {
         console.error('Products fetching Error:', error)
+        return []
+    }
+}
+
+export const searchCatalogsByName = async (searchParam: string) => {
+    try {
+        const products = await sanityFetch({
+            query: PRODUCT_SEARCH_QUERY,
+            params: {
+                searchParam: searchParam,
+            },
+        });
+        return products?.data || null
+
+    } catch (error) {
+        console.error("Fetching product by name Error:", error)
+        return []
+    }
+}
+
+export const getAllCategory = async () => {
+    try {
+        const categories = await sanityFetch({
+            query: CATEGORIES_QUERY,
+        })
+        return categories.data || []
+    } catch (error) {
+        console.error("All categories fetching Error:", error)
         return []
     }
 }

@@ -59,3 +59,5 @@ function Card({ catalog }: { catalog: CATALOG_QUERYResult[0] }) {
 }
 
 export default Card;
+
+

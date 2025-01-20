@@ -5,16 +5,24 @@ import DressStyleSection from "@/components/shop-page/filters/DressStyleSection"
 import PriceSection from "@/components/shop-page/filters/PriceSection";
 import SizeSection from "@/components/shop-page/filters/SizeSection";
 import { Button } from "@/components/ui/button";
+import { CATEGORIES_QUERYResult } from "sanity.types";
 
 const Filters = ({
   setPriceRange,
+  setCategory,
+  categoriesData,
 }: {
   setPriceRange: React.Dispatch<React.SetStateAction<number[]>>;
+  setCategory: React.Dispatch<React.SetStateAction<string>>;
+  categoriesData: CATEGORIES_QUERYResult;
 }) => {
   return (
     <>
       <hr className="border-t-black/10" />
-      <CategoriesSection />
+      <CategoriesSection
+        setCategory={setCategory}
+        categoriesData={categoriesData}
+      />
       <hr className="border-t-black/10" />
       <PriceSection setPriceRange={setPriceRange} />
       <hr className="border-t-black/10" />

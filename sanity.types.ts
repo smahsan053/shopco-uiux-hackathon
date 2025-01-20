@@ -263,6 +263,39 @@ export type CATALOG_QUERYResult = Array<{
     _type: "image";
   };
 }>;
+// Variable: PRODUCT_SEARCH_QUERY
+// Query: *[_type=='catalog' && name match $searchParam] | order(name asc)
+export type PRODUCT_SEARCH_QUERYResult = Array<{
+  _id: string;
+  _type: "catalog";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  name?: string;
+  description?: string;
+  price?: number;
+  category?: "hoodie" | "jeans" | "shirt" | "short" | "tshirt";
+  discountPercent?: number;
+  isNew?: boolean;
+  colors?: Array<string>;
+  sizes?: Array<string>;
+  imageUrl?: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+  };
+}>;
+// Variable: CATEGORIES_QUERY
+// Query: *[_type=='catalog']{category} | order(name asc)
+export type CATEGORIES_QUERYResult = Array<{
+  category: "hoodie" | "jeans" | "shirt" | "short" | "tshirt" | null;
+}>;
 
 // Query TypeMap
 import "@sanity/client";
@@ -271,5 +304,7 @@ declare module "@sanity/client" {
     "*[_type == \"product\"]\n{  \n    discountpercent,\n    _id,\n    \"categories\": category[]->category,\n    _updatedAt,\n    itemName,\n    _rev,\n    _type,\n    rating,\n    discountedPrice,\n    actualPrice,\n    _createdAt,\n    section,\n    image1,\n  }\n": PRODUCTS_QUERYResult;
     "*[_type=='category']{\"id\":_id, category}": CATEGORIES_ID_QUERIESResult;
     "*[_type=='catalog']": CATALOG_QUERYResult;
+    "*[_type=='catalog' && name match $searchParam] | order(name asc)": PRODUCT_SEARCH_QUERYResult;
+    "*[_type=='catalog']{category} | order(name asc)": CATEGORIES_QUERYResult;
   }
 }

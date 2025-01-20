@@ -1,66 +1,35 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button } from "../ui/button";
+import useCartStore from "@/store/CartStore";
 
-function ProductSizeButtons() {
-  const [bg, setBg] = useState("");
+function ProductSizeButtons({ sizes }: { sizes: string[] }) {
+  const [bg, setBg] = useState(sizes[0].toLowerCase());
+  const setSize = useCartStore((state) => state.setSize);
+
+  useEffect(() => setSize(bg.toUpperCase()), [setSize, bg]);
+
   const handleClick = (btnText: string) => {
     setBg(btnText);
   };
   return (
     <div className="flex gap-4">
-      <Button
-        variant={"secondary"}
-        className={`rounded-full px-6 py-3 text-base ${
-          bg === "sm"
-            ? `bg-black text-white hover:bg-black hover:text-white`
-            : ""
-        }`}
-        onClick={() => {
-          handleClick("sm");
-        }}
-      >
-        Small
-      </Button>
-      <Button
-        variant={"secondary"}
-        className={`rounded-full px-6 py-3 text-base ${
-          bg === "md"
-            ? `bg-black text-white hover:bg-black hover:text-white`
-            : ""
-        }`}
-        onClick={() => {
-          handleClick("md");
-        }}
-      >
-        Medium
-      </Button>
-      <Button
-        variant={"secondary"}
-        className={`rounded-full px-6 py-3 text-base ${
-          bg === "lg"
-            ? `bg-black text-white hover:bg-black hover:text-white`
-            : ""
-        }`}
-        onClick={() => {
-          handleClick("lg");
-        }}
-      >
-        Large
-      </Button>
-      <Button
-        variant={"secondary"}
-        className={`rounded-full px-6 py-3 text-base ${
-          bg === "xl"
-            ? `bg-black text-white hover:bg-black hover:text-white`
-            : ""
-        }`}
-        onClick={() => {
-          handleClick("xl");
-        }}
-      >
-        X-Large
-      </Button>
+      {sizes.map((size, index) => (
+        <Button
+          variant={"secondary"}
+          className={`rounded-full px-6 py-3 text-base ${
+            bg === size.toLowerCase()
+              ? `bg-black text-white hover:bg-black hover:text-white`
+              : ""
+          }`}
+          onClick={() => {
+            handleClick(size.toLowerCase());
+          }}
+          key={index}
+        >
+          {size}
+        </Button>
+      ))}
     </div>
   );
 }

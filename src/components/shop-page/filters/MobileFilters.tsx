@@ -9,11 +9,16 @@ import {
 } from "@/components/ui/drawer";
 import { FiSliders } from "react-icons/fi";
 import Filters from ".";
+import { CATEGORIES_QUERYResult } from "sanity.types";
 
 const MobileFilters = ({
   setPriceRange,
+  setCategory,
+  categoriesData,
 }: {
   setPriceRange: React.Dispatch<React.SetStateAction<number[]>>;
+  setCategory: React.Dispatch<React.SetStateAction<string>>;
+  categoriesData: CATEGORIES_QUERYResult;
 }) => {
   return (
     <Drawer>
@@ -35,7 +40,11 @@ const MobileFilters = ({
           <DrawerDescription className="hidden">filters</DrawerDescription>
         </DrawerHeader>
         <div className="max-h-[90%] overflow-y-auto w-full px-5 md:px-6 py-5 space-y-5 md:space-y-6">
-          <Filters setPriceRange={setPriceRange} />
+          <Filters
+            setPriceRange={setPriceRange}
+            setCategory={setCategory}
+            categoriesData={categoriesData}
+          />
         </div>
       </DrawerContent>
     </Drawer>

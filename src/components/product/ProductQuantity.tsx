@@ -10,7 +10,8 @@ function ProductQuantity({ product }: { product: CATALOG_QUERYResult[0] }) {
   const cartItemsCount = useCartStore((state) =>
     state.cartItemsCount(product._id)
   );
-  console.log(cartItemsCount);
+  const color = useCartStore((state) => state.color);
+  const size = useCartStore((state) => state.size);
 
   return (
     <div className="flex flex-row bg-[#F0F0F0] rounded-full">
@@ -35,7 +36,7 @@ function ProductQuantity({ product }: { product: CATALOG_QUERYResult[0] }) {
         variant={"secondary"}
         className="bg-[#F0F0F0] rounded-r-full"
         onClick={() => {
-          addCartItem(product);
+          addCartItem(product, size, color);
         }}
         disabled={cartItemsCount < 0}
       >
