@@ -1,0 +1,7 @@
+Functional Testing,,,,,
+Test Case ID,Description,Test Steps,Expected Result,Actual Result,Status
+TC001,Validate product listing page,Open /products page. Verify product details.,Products displayed with correct details.,Products displayed with correct details.,Passed
+TC002,Validate product detail page,Click on a product > Verify details displayed.,Product details displayed correctly.,Product details displayed correctly.,Passed
+TC003,Validate cart functionality,Add item to cart > Check cart contents,Cart updates with added items.,Cart updates with added items.,Passed
+TC004,Test API error handling ,Disconnect API > Refresh page ,Show fallback message ,Fallback message shown ,Passed 
+TC005,Test responsiveness layout,Resize window layout > browser check,Layot adjusts properly,Layot adjusts properly,Passed 
