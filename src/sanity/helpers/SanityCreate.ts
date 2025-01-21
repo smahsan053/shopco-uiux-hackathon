@@ -17,10 +17,10 @@ interface ProductType {
 
 }
 const client = createClient({
-    projectId: "k8bpzkxi",
-    dataset: "production",
-    apiVersion: "2025-01-10",
-    token: "skMuc5AKQcF3kAfnEkSeq4ZaZ7QmoYaYsRykHeOChitUCKAyq7q12mtxLwk9QdnEDa5QSBy1OwHnqTny9BZN0LFVR9q6on6hkhXH5JgDatt5v9afmZONMqaWc9EaGKMoEkRlQppQJrEIiXqki1m9xDz0JBk6ZXtA15U0ei30TJQ7SUwdAtfn",
+    projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID,
+    dataset: process.env.NEXT_PUBLIC_SANITY_DATASET,
+    apiVersion: process.env.NEXT_PUBLIC_SANITY_API_VERSION,
+    token: process.env.SANITY_API_TOKEN,
     useCdn: true,
 })
 
