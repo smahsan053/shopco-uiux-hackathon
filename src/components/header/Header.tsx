@@ -82,13 +82,13 @@ function Header() {
             </Link>
           </li>
           <li>
-            <Link href={"/sale"} className="hover:underline active:scale-95">
+            <Link href={"/"} className="hover:underline active:scale-95">
               On Sale
             </Link>
           </li>
           <li>
             <Link
-              href={"/newarrivals"}
+              href={"/"}
               className="hover:underline active:scale-95"
             >
               New Arrivals
@@ -96,7 +96,7 @@ function Header() {
           </li>
 
           <li>
-            <Link href={"/brands"} className="hover:underline active:scale-95">
+            <Link href={"/"} className="hover:underline active:scale-95">
               Brands
             </Link>
           </li>
@@ -108,7 +108,7 @@ function Header() {
             <Link href={"/cart"}>
               <ShoppingCart className="cursor-pointer hover:scale-105 active:scale-95" />
             </Link>
-            <Link href={"/user"}>
+            <Link href={"/"}>
               <CircleUserRound className="cursor-pointer hover:scale-105 active:scale-95" />
             </Link>
           </div>

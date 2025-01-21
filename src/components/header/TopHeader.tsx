@@ -54,7 +54,7 @@ function TopHeader() {
       <Container className="relative flex flex-nowrap items-center justify-center h-full">
         <div className="flex items-center justify-center gap-2 text-center text-xs sm:text-sm">
           Sign up and get 20% off your first order.{" "}
-          <Link href={"/signin"} className="font-medium underline">
+          <Link href={"/"} className="font-medium underline">
             Sign Up Now
           </Link>
         </div>
