@@ -62,7 +62,7 @@ function Product({ product }: { product: CATALOG_QUERYResult[0] }) {
           {product.name}
         </h1>
         <div className="flex gap-2 items-center justify-start mb-2 mt-1">
-          <StarRating rating={product.rating} />
+          <StarRating rating={product.rating!} />
           {product.rating}/5
         </div>
         <div className="flex items-center gap-4">

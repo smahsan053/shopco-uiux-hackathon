@@ -50,7 +50,7 @@ function DisplayedProducts({
           a.price && b.price ? a.price - b.price : 0
         );
       case "most-popular":
-        return [...catalog].sort((a, b) => b.rating - a.rating); // Sort by stars (most relevant)
+        return [...catalog].sort((a, b) => b.rating! - a.rating!); // Sort by stars (most relevant)
       default:
         return catalog;
     }

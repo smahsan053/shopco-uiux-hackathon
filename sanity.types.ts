@@ -238,6 +238,7 @@ export type CATEGORIES_ID_QUERIESResult = Array<{
 // Variable: CATALOG_QUERY
 // Query: *[_type=='catalog']
 export type CATALOG_QUERYResult = Array<{
+  rating?: number;
   _id: string;
   _type: "catalog";
   _createdAt: string;

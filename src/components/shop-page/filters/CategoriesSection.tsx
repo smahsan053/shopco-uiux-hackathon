@@ -1,5 +1,5 @@
 import Link from "next/link";
-import React, { useEffect } from "react";
+import React from "react";
 import { MdKeyboardArrowRight } from "react-icons/md";
 import { CATEGORIES_QUERYResult } from "sanity.types";
 import {

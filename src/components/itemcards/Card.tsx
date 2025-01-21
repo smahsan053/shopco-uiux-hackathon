@@ -27,7 +27,7 @@ function Card({ catalog }: { catalog: CATALOG_QUERYResult[0] }) {
           </p>
           <div className={`flex flex-col gap-1`}>
             <div className="flex flex-row items-center gap-2">
-              <StarRating rating={catalog.rating} />
+              <StarRating rating={catalog.rating!} />
               {catalog.rating}/5
             </div>
             <div className="font-medium text-base leading-6 flex gap-3 items-center">

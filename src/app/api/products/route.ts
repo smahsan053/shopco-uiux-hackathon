@@ -29,7 +29,7 @@ export async function POST(request: Request) {
                 discountpercent: item.discountedPrice,
                 rating: item.rating,
                 section: item.section,
-                category: categories.map((category: { id: string, category: string }, index: number) => (item.category.filter((itemCategory) => (itemCategory === category.category)).map(() => ({ _type: "reference", _ref: category.id, _key: `${category.id}-${index}` })))).flat(),
+                category: categories.map((category: { id: string, category: string | null }, index: number) => (item.category.filter((itemCategory) => (itemCategory === category.category)).map(() => ({ _type: "reference", _ref: category.id, _key: `${category.id}-${index}` })))).flat(),
                 image1: item.image1 ? {
                     _type: 'image',
                     asset: {
