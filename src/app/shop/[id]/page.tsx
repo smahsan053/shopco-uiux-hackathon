@@ -183,15 +183,18 @@ export default async function ProductPage(props: {
   const catalog = await getProductsCatalog();
   return (
     <Container className="relative overflow-x-hidden">
-      {catalog.map((product) =>
-        product._id === id ? (
-          <div key={product._id} className="flex flex-col">
-            <BreadCrumb location={["Home", "Shop", "Men", "T-shirts"]} />
-            <Product product={product} />
-          </div>
-        ) : (
-          ""
+      {catalog.length > 0 ? (
+        catalog.map(
+          (product) =>
+            product._id === id && (
+              <div key={product._id} className="flex flex-col">
+                <BreadCrumb location={["Home", "Shop", "Men", "T-shirts"]} />
+                <Product product={product} />
+              </div>
+            )
         )
+      ) : (
+        <p>No products available.</p>
       )}
       <FeedbackTabs />
       <DisplayCard heading="You might also like" button={false} id={id} />

@@ -11,7 +11,6 @@
     "create": "node --loader ts-node/esm src/sanity/helpers/SanityCreate.ts",
     "test": "node --loader ts-node/esm src/sanity/helpers/ApiTesting.ts",
     "typegen": "npx sanity@latest schema extract && npx sanity@latest typegen generate"
-
   },
   "dependencies": {
     "@radix-ui/react-accordion": "^1.2.1",
@@ -48,6 +47,7 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "cypress": "^14.0.0",
     "daisyui": "^4.12.23",
     "eslint": "^8",
     "eslint-config-next": "15.0.4",

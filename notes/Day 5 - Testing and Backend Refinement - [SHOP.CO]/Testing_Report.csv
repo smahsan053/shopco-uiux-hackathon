@@ -1,0 +1,18 @@
+Functional Testing,,,,,,
+Test Case ID,Description,Test Steps,Expected Result,Actual Result,Status,Severity
+TC001,Validate product listing page,Open /products page. Verify product details.,Products displayed with correct details.,Products displayed with correct details.,Passed,Low
+TC002,Validate product detail page,Click on a product > Verify details displayed.,Product details displayed correctly.,Product details displayed correctly.,Passed,Medium
+TC002,Validate cart functionality,Add item to cart > Check cart contents,Cart updates with added items.,Cart updates with added items.,Passed,High
+API Testing,,,,,,
+API Endpoint,Request Type,Description,Expected Response,Actual Response,Status,
+https://template1-neon-nu.vercel.app/api/products,GET,Fetch product list from API,200 OK with external product data,200 OK with external product data,Passed,
+/catalog,POST,Upload products to Sanity CMS,201 Created,201 Created,Passed,
+Cross-Browser and Device Testing,,,,,,
+Browser/Device,Viewport,Tested Pages,Result,,,
+Chrome (Mobile),Samsung Galaxy-S10,"Home, Cart, Products",Responsive,,,
+Firefox  (Mobile),Iphone-12,"Home, Products",Responsive,,,
+Opera  (Tablet/Desktop),1600x1200,"Home, Products",Responsive,,,
+Error Handling,,,,,,
+Test Scenario,Steps,Expected Behavior,Actual Behavior,Status,,
+API failure during product fetch,Disconnect API > Reload page,Show fallback UI with error message.,Error message displayed correctly.,Passed,,
+Empty product list,Return empty array from backend,Show “No products available” message.,“No products available” message shown.,Passed,,
