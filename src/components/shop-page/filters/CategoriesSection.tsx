@@ -23,11 +23,19 @@ const CategoriesSection = ({
           Category
         </AccordionTrigger>
         <AccordionContent className="flex flex-col space-y-0.5 text-black/60">
+          <Link
+            key="all"
+            href="/shop"
+            className="flex items-center justify-between py-2 capitalize"
+            onClick={() => setCategory("")} // Reset category to show all products
+          >
+            All Products <MdKeyboardArrowRight />
+          </Link>
           {Array.from(new Set(categoriesData.map((item) => item.category))).map(
             (category, idx) => (
               <Link
                 key={idx}
-                href={`/shop#${category}`}
+                href={`/shop?category=${category}`}
                 className="flex items-center justify-between py-2 capitalize"
                 onClick={() => setCategory(category!.toLowerCase())}
               >

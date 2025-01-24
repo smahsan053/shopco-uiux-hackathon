@@ -1,10 +1,8 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   Pagination,
   PaginationContent,
-  PaginationEllipsis,
-  PaginationItem,
   PaginationLink,
   PaginationNext,
   PaginationPrevious,
@@ -31,8 +29,8 @@ function DisplayedProducts({
 }) {
   const [sortCriteria, setSortCriteria] = useState("most-popular");
   const [priceRange, setPriceRange] = useState([50, 300]);
+  const [currentPage, setCurrentPage] = useState(1);
   const [category, setCategory] = useState("");
-  console.log(category);
 
   const limitProductPrice = (catalog: CATALOG_QUERYResult) => {
     return [...catalog].filter(
@@ -55,15 +53,29 @@ function DisplayedProducts({
         return catalog;
     }
   };
-  const priceLimit = limitProductPrice(catalog);
+  const paginateProducts = (catalog: CATALOG_QUERYResult) => {
+    return catalog.slice(startIndex, lastIndex);
+  };
+  const categorizedProducts = (
+    catalog: CATALOG_QUERYResult,
+    category: string
+  ) => {
+    if (category.length > 0) {
+      return catalog.filter((product) => product.category === category);
+    } else {
+      return catalog;
+    }
+  };
+  const products = categorizedProducts(catalog, category);
+  const totalProducts = products.length;
+  const productsPerPage = 2;
+  const numOfPages = Math.ceil(totalProducts / productsPerPage);
+  const displayedProductsLength = Math.ceil(totalProducts / numOfPages);
+  const startIndex = (currentPage - 1) * displayedProductsLength;
+  const lastIndex = startIndex + displayedProductsLength;
+  const paginatedCatalog = paginateProducts(products);
+  const priceLimit = limitProductPrice(paginatedCatalog);
   const sortedProducts = sortProducts(priceLimit);
-
-  useEffect(() => {
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth",
-    });
-  });
   return (
     <div className="flex md:space-x-5 items-start">
       <div className="hidden md:block min-w-[295px] max-w-[295px] border border-black/10 rounded-[20px] px-5 md:px-6 py-5 space-y-5 md:space-y-6 mt-6">
@@ -103,7 +115,7 @@ function DisplayedProducts({
           </div>
           <div className="flex flex-col sm:items-center sm:flex-row">
             <span className="text-sm md:text-base text-black/60 mr-3">
-              Showing 1-10 of 100 Products
+              Showing {startIndex + 1}-{lastIndex} of {products.length} Products
             </span>
             <SortProduct setSortCriteria={setSortCriteria} />
           </div>
@@ -122,63 +134,33 @@ function DisplayedProducts({
         </div>
         <hr className="border-t-black/10" />
         <Pagination className="justify-between">
-          <PaginationPrevious href="#" className="border border-black/10" />
-          <PaginationContent>
-            <PaginationItem>
-              <PaginationLink
-                href="#"
-                className="text-black/50 font-medium text-sm"
-                isActive
-              >
-                1
-              </PaginationLink>
-            </PaginationItem>
-            <PaginationItem>
-              <PaginationLink
-                href="#"
-                className="text-black/50 font-medium text-sm"
-              >
-                2
-              </PaginationLink>
-            </PaginationItem>
-            <PaginationItem className="hidden lg:block">
-              <PaginationLink
-                href="#"
-                className="text-black/50 font-medium text-sm"
-              >
-                3
-              </PaginationLink>
-            </PaginationItem>
-            <PaginationItem>
-              <PaginationEllipsis className="text-black/50 font-medium text-sm" />
-            </PaginationItem>
-            <PaginationItem className="hidden lg:block">
-              <PaginationLink
-                href="#"
-                className="text-black/50 font-medium text-sm"
-              >
-                8
-              </PaginationLink>
-            </PaginationItem>
-            <PaginationItem className="hidden sm:block">
-              <PaginationLink
-                href="#"
-                className="text-black/50 font-medium text-sm"
-              >
-                9
-              </PaginationLink>
-            </PaginationItem>
-            <PaginationItem>
-              <PaginationLink
-                href="#"
-                className="text-black/50 font-medium text-sm"
-              >
-                10
-              </PaginationLink>
-            </PaginationItem>
-          </PaginationContent>
-
-          <PaginationNext href="#" className="border border-black/10" />
+          <PaginationPrevious
+            href={`/shop?page=${currentPage - 1}`}
+            className={`border border-black/10 ${currentPage === 1 ? "btn-disabled" : ""}`}
+            onClick={() => setCurrentPage(currentPage - 1)}
+          />
+          {
+            <PaginationContent>
+              {Array.from({ length: numOfPages }, (_, index) => index + 1).map(
+                (page) => (
+                  <PaginationLink
+                    key={page}
+                    href={`/shop?page=${page}`}
+                    className="text-black/50 font-medium text-sm"
+                    isActive={currentPage === page ? true : false}
+                    onClick={() => setCurrentPage(page)}
+                  >
+                    {page}
+                  </PaginationLink>
+                )
+              )}
+            </PaginationContent>
+          }
+          <PaginationNext
+            href={`/shop?page=${currentPage + 1}`}
+            className={`border border-black/10 ${currentPage === numOfPages ? "btn-disabled" : ""}`}
+            onClick={() => setCurrentPage(currentPage + 1)}
+          />
         </Pagination>
       </div>
     </div>
