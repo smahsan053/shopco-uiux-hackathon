@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Pagination,
   PaginationContent,
@@ -33,6 +33,15 @@ function DisplayedProducts({
   const [category, setCategory] = useState("");
   const [selectedColor, setSelectedColor] = useState("");
   const [selectedSize, setSelectedSize] = useState("");
+  const [mobileView, setMobileView] = useState(false);
+
+  useEffect(() => {
+    if (window.innerWidth < 640) {
+      setMobileView(true);
+    } else {
+      setMobileView(false);
+    }
+  }, []);
 
   const limitProductPrice = (catalog: CATALOG_QUERYResult) => {
     return [...catalog].filter(
@@ -194,7 +203,7 @@ function DisplayedProducts({
               )}
 
               {Array.from(
-                { length: window.innerWidth > 640 ? 5 : 3 },
+                { length: mobileView ? 3 : 5 },
                 (_, i) => currentPage - 2 + i
               )
                 .filter((page) => page > 0 && page <= numOfPages)
