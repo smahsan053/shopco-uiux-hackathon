@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, {  useState } from "react";
 import {
   Pagination,
   PaginationContent,
@@ -19,6 +19,7 @@ import Card from "@/components/itemcards/Card";
 import Filters from "./shop-page/filters";
 import { FiSliders } from "react-icons/fi";
 import { CATALOG_QUERYResult, CATEGORIES_QUERYResult } from "sanity.types";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 function DisplayedProducts({
   catalog,
@@ -33,16 +34,8 @@ function DisplayedProducts({
   const [category, setCategory] = useState("");
   const [selectedColor, setSelectedColor] = useState("");
   const [selectedSize, setSelectedSize] = useState("");
-  const [mobileView, setMobileView] = useState(false);
-
-  useEffect(() => {
-    if (window.innerWidth < 640) {
-      setMobileView(true);
-    } else {
-      setMobileView(false);
-    }
-  }, []);
-
+  const mobile = useIsMobile()
+  
   const limitProductPrice = (catalog: CATALOG_QUERYResult) => {
     return [...catalog].filter(
       (item) => item.price! <= priceRange[1] && item.price! >= priceRange[0]
@@ -203,7 +196,7 @@ function DisplayedProducts({
               )}
 
               {Array.from(
-                { length: mobileView ? 3 : 5 },
+                { length: mobile ? 3 : 5 },
                 (_, i) => currentPage - 2 + i
               )
                 .filter((page) => page > 0 && page <= numOfPages)
