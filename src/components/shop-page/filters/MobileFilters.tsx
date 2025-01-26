@@ -9,16 +9,28 @@ import {
 } from "@/components/ui/drawer";
 import { FiSliders } from "react-icons/fi";
 import Filters from ".";
-import { CATEGORIES_QUERYResult } from "sanity.types";
+import { CATALOG_QUERYResult, CATEGORIES_QUERYResult } from "sanity.types";
 
 const MobileFilters = ({
   setPriceRange,
   setCategory,
   categoriesData,
+  setCurrentPage,
+  products,
+  setSelectedColor,
+  selectedColor,
+  selectedSize,
+  setSelectedSize,
 }: {
   setPriceRange: React.Dispatch<React.SetStateAction<number[]>>;
   setCategory: React.Dispatch<React.SetStateAction<string>>;
   categoriesData: CATEGORIES_QUERYResult;
+  setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
+  products: CATALOG_QUERYResult;
+  setSelectedColor: React.Dispatch<React.SetStateAction<string>>;
+  selectedColor: string;
+  selectedSize: string;
+  setSelectedSize: React.Dispatch<React.SetStateAction<string>>;
 }) => {
   return (
     <Drawer>
@@ -44,6 +56,12 @@ const MobileFilters = ({
             setPriceRange={setPriceRange}
             setCategory={setCategory}
             categoriesData={categoriesData}
+            products={products}
+            setCurrentPage={setCurrentPage}
+            selectedColor={selectedColor}
+            setSelectedColor={setSelectedColor}
+            setSelectedSize={setSelectedSize}
+            selectedSize={selectedSize}
           />
         </div>
       </DrawerContent>

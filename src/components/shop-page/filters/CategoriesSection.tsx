@@ -12,9 +12,11 @@ import {
 const CategoriesSection = ({
   setCategory,
   categoriesData,
+  setCurrentPage,
 }: {
   setCategory: React.Dispatch<React.SetStateAction<string>>;
   categoriesData: CATEGORIES_QUERYResult;
+  setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
 }) => {
   return (
     <Accordion type="single" collapsible defaultValue="filter-category">
@@ -27,7 +29,10 @@ const CategoriesSection = ({
             key="all"
             href="/shop"
             className="flex items-center justify-between py-2 capitalize"
-            onClick={() => setCategory("")} // Reset category to show all products
+            onClick={() => {
+              setCategory("");
+              setCurrentPage(1);
+            }} 
           >
             All Products <MdKeyboardArrowRight />
           </Link>
@@ -37,7 +42,10 @@ const CategoriesSection = ({
                 key={idx}
                 href={`/shop?category=${category}`}
                 className="flex items-center justify-between py-2 capitalize"
-                onClick={() => setCategory(category!.toLowerCase())}
+                onClick={() => {
+                  setCategory(category!.toLowerCase());
+                  setCurrentPage(1);
+                }}
               >
                 {category === "tshirt"
                   ? category.replace("tshirt", "T-Shirt")

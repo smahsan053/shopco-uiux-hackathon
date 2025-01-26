@@ -1,8 +1,8 @@
-import { defineField, defineType } from "sanity";
+import { defineArrayMember, defineField, defineType } from "sanity";
 
 export const ProductCatalog = defineType({
-    title: "Product Catalog",
     name: "catalog",
+    title: "Product Catalog",
     type: "document",
     fields: [
         defineField({
@@ -48,13 +48,13 @@ export const ProductCatalog = defineType({
             name: "colors",
             title: "Product Colors",
             type: "array",
-            of: [{ type: "string" }]
+            of: [defineArrayMember({ type: "string" })]
         }),
         defineField({
             name: "sizes",
             title: "Product Sizes",
             type: "array",
-            of: [{ type: "string" }]
+            of: [defineArrayMember({ type: "string" })]
         }),
         defineField({
             name: "imageUrl",

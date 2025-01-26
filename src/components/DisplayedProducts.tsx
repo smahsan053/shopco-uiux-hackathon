@@ -31,12 +31,33 @@ function DisplayedProducts({
   const [priceRange, setPriceRange] = useState([50, 300]);
   const [currentPage, setCurrentPage] = useState(1);
   const [category, setCategory] = useState("");
+  const [selectedColor, setSelectedColor] = useState("");
+  const [selectedSize, setSelectedSize] = useState("");
 
   const limitProductPrice = (catalog: CATALOG_QUERYResult) => {
     return [...catalog].filter(
       (item) => item.price! <= priceRange[1] && item.price! >= priceRange[0]
     );
   };
+
+  const sortProductsWithColor = (catalog: CATALOG_QUERYResult) => {
+    if (selectedColor) {
+      return catalog.filter((product) =>
+        product.colors?.includes(selectedColor)
+      );
+    } else {
+      return catalog;
+    }
+  };
+
+  const sortProductsWithSize = (catalog: CATALOG_QUERYResult) => {
+    if (selectedSize) {
+      return catalog.filter((product) => product.sizes?.includes(selectedSize));
+    } else {
+      return catalog;
+    }
+  };
+
   const sortProducts = (catalog: CATALOG_QUERYResult) => {
     switch (sortCriteria) {
       case "high-price":
@@ -53,9 +74,11 @@ function DisplayedProducts({
         return catalog;
     }
   };
+
   const paginateProducts = (catalog: CATALOG_QUERYResult) => {
     return catalog.slice(startIndex, lastIndex);
   };
+
   const categorizedProducts = (
     catalog: CATALOG_QUERYResult,
     category: string
@@ -66,6 +89,7 @@ function DisplayedProducts({
       return catalog;
     }
   };
+
   const products = categorizedProducts(catalog, category);
   const totalProducts = products.length;
   const productsPerPage = 2;
@@ -75,7 +99,9 @@ function DisplayedProducts({
   const lastIndex = startIndex + displayedProductsLength;
   const paginatedCatalog = paginateProducts(products);
   const priceLimit = limitProductPrice(paginatedCatalog);
-  const sortedProducts = sortProducts(priceLimit);
+  const sortWithColor = sortProductsWithColor(priceLimit);
+  const sortWithsize = sortProductsWithSize(sortWithColor);
+  const sortedProducts = sortProducts(sortWithsize);
   return (
     <div className="flex md:space-x-5 items-start">
       <div className="hidden md:block min-w-[295px] max-w-[295px] border border-black/10 rounded-[20px] px-5 md:px-6 py-5 space-y-5 md:space-y-6 mt-6">
@@ -92,6 +118,12 @@ function DisplayedProducts({
                 setPriceRange={setPriceRange}
                 setCategory={setCategory}
                 categoriesData={categoriesData}
+                products={products}
+                setCurrentPage={setCurrentPage}
+                setSelectedColor={setSelectedColor}
+                selectedColor={selectedColor}
+                setSelectedSize={setSelectedSize}
+                selectedSize={selectedSize}
               />
             </AccordionContent>
           </AccordionItem>
@@ -111,6 +143,12 @@ function DisplayedProducts({
               setPriceRange={setPriceRange}
               setCategory={setCategory}
               categoriesData={categoriesData}
+              products={products}
+              setCurrentPage={setCurrentPage}
+              setSelectedColor={setSelectedColor}
+              selectedColor={selectedColor}
+              setSelectedSize={setSelectedSize}
+              selectedSize={selectedSize}
             />
           </div>
           <div className="flex flex-col sm:items-center sm:flex-row">
@@ -140,19 +178,52 @@ function DisplayedProducts({
             onClick={() => setCurrentPage(currentPage - 1)}
           />
           {
-            <PaginationContent>
-              {Array.from({ length: numOfPages }, (_, index) => index + 1).map(
-                (page) => (
+            <PaginationContent className="flex flex-wrap items-center justify-center gap-2">
+              {currentPage > 3 && (
+                <PaginationLink
+                  href={`/shop?page=1`}
+                  className="text-black/50 font-medium text-sm"
+                  onClick={() => setCurrentPage(1)}
+                >
+                  1
+                </PaginationLink>
+              )}
+
+              {currentPage > 3 && (
+                <span className="text-black/50 font-medium text-sm">...</span>
+              )}
+
+              {Array.from(
+                { length: window.innerWidth > 640 ? 5 : 3 },
+                (_, i) => currentPage - 2 + i
+              )
+                .filter((page) => page > 0 && page <= numOfPages)
+                .map((page, index) => (
                   <PaginationLink
-                    key={page}
+                    key={index}
                     href={`/shop?page=${page}`}
-                    className="text-black/50 font-medium text-sm"
-                    isActive={currentPage === page ? true : false}
+                    className={`text-black/50 font-medium text-sm ${
+                      currentPage === page ? "font-bold text-black" : ""
+                    }`}
+                    isActive={currentPage === page}
                     onClick={() => setCurrentPage(page)}
                   >
                     {page}
                   </PaginationLink>
-                )
+                ))}
+
+              {currentPage < numOfPages - 2 && (
+                <span className="text-black/50 font-medium text-sm">...</span>
+              )}
+
+              {currentPage < numOfPages - 2 && (
+                <PaginationLink
+                  href={`/shop?page=${numOfPages}`}
+                  className="text-black/50 font-medium text-sm"
+                  onClick={() => setCurrentPage(numOfPages)}
+                >
+                  {numOfPages}
+                </PaginationLink>
               )}
             </PaginationContent>
           }
