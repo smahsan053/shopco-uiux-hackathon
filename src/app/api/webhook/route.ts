@@ -19,7 +19,7 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
+  const webhookSecret = "whsec_JAhdX6Vu5zLgXWnBVKQFHIh1pMHIO8h1";
   if (!webhookSecret) {
     console.log("Stripe webhook secret is not set");
     return NextResponse.json(
