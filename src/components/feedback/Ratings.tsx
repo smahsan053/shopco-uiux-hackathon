@@ -1,6 +1,12 @@
 import React, { useState } from "react";
 
-const StarRating = () => {
+const StarRating = ({
+  handleChange,
+}: {
+  handleChange: (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => void;
+}) => {
   const [value, setValue] = useState(0);
 
   const handleClick = (star: number) => {
@@ -15,10 +21,10 @@ const StarRating = () => {
           <label key={star} className="flex items-center cursor-pointer">
             <input
               type="radio"
-              name="stars"
-              value={star.toString()}
-              onChange={() => handleClick(star)}
-              className="hidden" // Hide the default radio button
+              name="rating"
+              value={value.toString()}
+              onChange={(e) => handleChange(e)}
+              className="hidden"
               required
             />
             <span

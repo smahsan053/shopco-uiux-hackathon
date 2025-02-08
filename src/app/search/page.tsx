@@ -11,8 +11,6 @@ async function SearchPage({
 }) {
   const query = (await searchParams).search;
   const catalogs = await searchCatalogsByName(query);
-  console.log(catalogs);
-
   if (!catalogs?.length) {
     return (
       <Container className="flex flex-col justify-center p-4">

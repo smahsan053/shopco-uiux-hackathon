@@ -6,7 +6,7 @@ import Container from "../ui/Container";
 import ProductDetails from "./ProductDetails";
 import Faqs from "./Faqs";
 
-function FeedbackTabs() {
+function FeedbackTabs({ id }: { id: string }) {
   return (
     <Tabs defaultValue="reviews">
       <Container className="mb-4">
@@ -35,7 +35,7 @@ function FeedbackTabs() {
         <ProductDetails />
       </TabsContent>
       <TabsContent value="reviews">
-        <Feedback isDate={true} />
+        <Feedback isDate={true} id={id} />
       </TabsContent>
       <TabsContent value="faqs">
         <Faqs />

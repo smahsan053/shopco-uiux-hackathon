@@ -44,7 +44,7 @@ async function DisplayCard(props: PropType) {
       </div>
       {props.button ? (
         <Link
-          href={"/shop"}
+          href={`${props.heading.toLowerCase().split(" ").join("")}`}
           className="border border-black hover:bg-black/5 active:bg-transparent w-full md:w-[230px] h-12 rounded-full flex justify-center items-center mt-6 mb-4"
         >
           View All

@@ -11,6 +11,7 @@ interface ProductType {
     sizes: string[],
     description: string,
     imageUrl: string
+    rating: number
 
 }
 export async function POST(request: NextRequest) {
@@ -34,6 +35,7 @@ export async function POST(request: NextRequest) {
                         _ref: product.imageUrl
                     },
                 } : null,
+                rating: product.rating
             })
         })
         return NextResponse.json({ message: 'Catalog created successfully', data });

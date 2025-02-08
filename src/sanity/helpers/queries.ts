@@ -27,3 +27,58 @@ export const CATALOG_QUERY = defineQuery(`*[_type=='catalog']`)
 export const PRODUCT_SEARCH_QUERY = defineQuery(`*[_type=='catalog' && name match $searchParam] | order(name asc)`)
 
 export const CATEGORIES_QUERY = defineQuery(`*[_type=='catalog']{category} | order(name asc)`)
+
+export const PRODUCT_REVIEWS_QUERY = defineQuery(`*[_type == "reviews"]`)
+
+export const MY_ORDERS_QUERY =
+  defineQuery(`*[_type == 'order' && userId == $userId] | order(orderData desc){
+...,products[]{
+  ...,product->
+}
+}`);
+
+export const ORDERS_QUERY = defineQuery(`*[_type == "order"]{
+  _id,
+  orderNumber,
+  stripeCheckoutSessionId,
+  stripeCustomerId,
+  userId,
+  customerName,
+  email,
+  stripePaymentIntentId,
+  totalPrice,
+  currency,
+  amountDiscount,
+  status,
+  orderDate,
+  products[] {
+    quantity,
+    product->{
+      _id,
+      title,
+      price,
+      image
+    }
+  }
+} | order(orderDate desc)`)
+
+export const USER_QUERY = defineQuery(`*[_type == "user"] {
+  _id,
+  firstName,
+  lastName,
+  userId,
+  email,
+  authMethod,
+  role,
+  createdAt
+}`)
+
+export const USER_SEARCH_QUERY = defineQuery(`*[_type == "user" && email == $email][0]`)
+
+export const STATS_QUERY = defineQuery(`{
+  "totalProducts": count(*[_type == "catalog"]),
+  "totalOrders": count(*[_type == "order"]),
+  "activeOrders": count(*[_type == "order" && status in ["pending", "paid", "shipped"]]),
+  "totalUsers": count(*[_type == "user"]),
+  "orders": *[_type == "order" && status in ["paid", "shipped", "delivered"]] { totalPrice }
+}`)

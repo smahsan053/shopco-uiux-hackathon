@@ -57,6 +57,11 @@ export const ProductCatalog = defineType({
             of: [defineArrayMember({ type: "string" })]
         }),
         defineField({
+            title: "Product Ratings",
+            type: "number",
+            name: "rating"
+        }),
+        defineField({
             name: "imageUrl",
             title: "Product Image",
             type: "image",

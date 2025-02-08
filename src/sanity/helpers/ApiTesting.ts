@@ -1,5 +1,4 @@
 import { createClient } from "next-sanity"
-
 interface ProductType {
     name: string,
     price: number,
@@ -23,15 +22,13 @@ const APITest = async () => {
     const response = await fetch("https://template1-neon-nu.vercel.app/api/products")
     const data = await response.json()
     const res = await Promise.all(data.map(async (item: ProductType) => {
-        const imageResponse = await fetch(item.imageUrl)        
+        const imageResponse = await fetch(item.imageUrl)
         const arrayBuffer = await imageResponse.arrayBuffer()
         const buffer = Buffer.from(arrayBuffer)
         const imageAsset = await client.assets.upload("image", buffer)
-        console.log(imageAsset);
         return { ...item, imageUrl: imageAsset._id }
 
     }))
-    console.log(res);
-
+    return res
 }
 APITest()

@@ -5,21 +5,24 @@ import { Trash2 } from "lucide-react";
 import useCartStore from "@/store/CartStore";
 import { CATALOG_QUERYResult } from "sanity.types";
 import { urlFor } from "@/sanity/lib/image";
+import Link from "next/link";
 
 function Card({ product }: { product: CATALOG_QUERYResult[0] }) {
   const removeCartItem = useCartStore((state) => state.removeCartItem);
   const cartItems = useCartStore((state) => state.cartItems);
 
   return (
-    <div className="flex w-full p-4">
-      <div className="flex flex-row items-center justify-around gap-4 w-full">
-        <Image
-          src={`${urlFor(product.imageUrl!).url()}`}
-          alt="gradienttshirt"
-          width={124}
-          height={124}
-          className="rounded-md"
-        />
+    <Link className="flex w-full p-4" href={`/shop/${product._id}`}>
+      <div className="flex flex-row items-center justify-around gap-4 w-full ">
+        <div className="w-32 h-32">
+          <Image
+            src={`${urlFor(product.imageUrl!).url()}`}
+            alt="gradienttshirt"
+            width={128}
+            height={128}
+            className="rounded-md object-cover w-full h-full hover:scale-105 transition-all duration-700"
+          />
+        </div>
         <div className="flex flex-row w-full justify-between items-center h-full">
           <div className="flex flex-col justify-between h-full">
             <h1 className="font-bold text-base md:text-xl capitalize text-wrap">
@@ -60,7 +63,7 @@ function Card({ product }: { product: CATALOG_QUERYResult[0] }) {
           </div>
         </div>
       </div>
-    </div>
+    </Link>
   );
 }
 

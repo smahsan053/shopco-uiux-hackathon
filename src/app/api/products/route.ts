@@ -1,6 +1,7 @@
 import { getCategoriesId } from '@/sanity/helpers';
 import { client } from '@/sanity/lib/client';
 import { NextResponse } from 'next/server';
+import { toast } from 'react-toastify';
 
 interface ProductType {
     itemName: string,
@@ -18,7 +19,6 @@ export async function POST(request: Request) {
 
     try {
         const data = await request.json();
-        console.log(data);
         await data.map(async (item: ProductType) => {
 
             return client.create({
@@ -39,10 +39,7 @@ export async function POST(request: Request) {
                 } : null,
             })
         })
-        // console.log("itemName", itemName);
-        // Process the data as needed
-
-        console.log("Product Submitted");
+        toast.success("Product Submitted")
         return NextResponse.json({ message: 'Product created successfully', data });
     } catch (error) {
         return NextResponse.json({ error: `Failed to create products ${error}` }, { status: 500 });

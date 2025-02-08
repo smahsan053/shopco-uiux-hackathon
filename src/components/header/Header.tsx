@@ -1,15 +1,32 @@
-import React from "react";
+"use client";
+import React, { useEffect } from "react";
 import Container from "../ui/Container";
-import {
-  ChevronDown,
-  CircleUserRound,
-  Menu,
-  ShoppingCart,
-} from "lucide-react";
+import { Menu, ShoppingCart } from "lucide-react";
 import SearchBar from "./SearchBar";
 import Link from "next/link";
+// import SignInButton from "./SignInButton";
+// import { auth } from "@/auth";
+import UserProfile from "./UserProfile";
+import AuthSwitcher from "./AuthSwitcher";
+import { useUserStore } from "@/store/UserStore";
 
 function Header() {
+  const user = useUserStore((state) => state.getUser());
+  const setUser = useUserStore((state) => state.setUser);
+  const isAdmin = useUserStore((state) => state.isAdmin);
+
+  useEffect(() => {
+    const userInterval = setInterval(() => {
+      const userData = useUserStore.getState().getUser();
+      if (userData) {
+        setUser(userData);
+        clearInterval(userInterval);
+      }
+    }, 500);
+
+    return () => clearInterval(userInterval);
+  }, [setUser]);
+
   return (
     <div className="sticky top-0 bg-white z-50 py-5 md:py-6 ">
       <Container className="flex justify-between md:justify-start items-center h-12 gap-1 sm:gap-4 md:gap-10 w-full ">
@@ -37,15 +54,7 @@ function Header() {
                     href={"/shop"}
                     className="flex flex-nowrap text-black hover:underline active:scale-95"
                   >
-                    Shop <ChevronDown />
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href={"/sale"}
-                    className="hover:underline text-black active:scale-95"
-                  >
-                    On Sale
+                    Shop
                   </Link>
                 </li>
                 <li>
@@ -56,15 +65,25 @@ function Header() {
                     New Arrivals
                   </Link>
                 </li>
-
                 <li>
                   <Link
-                    href={"/brands"}
+                    href={"/orders"}
                     className="hover:underline text-black active:scale-95"
                   >
-                    Brands
+                    Your Orders
                   </Link>
                 </li>
+
+                {isAdmin && (
+                  <li>
+                    <Link
+                      href={"/dashboard"}
+                      className="hover:underline text-black active:scale-95"
+                    >
+                      Admin Dashboard
+                    </Link>
+                  </li>
+                )}
               </ul>
             </div>
           </div>
@@ -78,39 +97,41 @@ function Header() {
               href={"/shop"}
               className="flex flex-nowrap hover:underline active:scale-95"
             >
-              Shop <ChevronDown />
-            </Link>
-          </li>
-          <li>
-            <Link href={"/"} className="hover:underline active:scale-95">
-              On Sale
+              Shop
             </Link>
           </li>
           <li>
             <Link
-              href={"/"}
+              href={"/newarrivals"}
               className="hover:underline active:scale-95"
             >
               New Arrivals
             </Link>
           </li>
-
           <li>
-            <Link href={"/"} className="hover:underline active:scale-95">
-              Brands
+            <Link href={"/orders"} className="hover:underline active:scale-95">
+              Your Orders
             </Link>
           </li>
+          {isAdmin && (
+            <li>
+              <Link
+                href={"/dashboard"}
+                className="hover:underline active:scale-95"
+              >
+                Admin Dashboard
+              </Link>
+            </li>
+          )}
         </ul>
-        <div className="flex sm:flex-1 gap-1 sm:gap-3 md:gap-10 relative">
+        <div className="flex sm:flex-1 gap-1 sm:gap-3 md:gap-10 justify-center items-center relative">
           <SearchBar />
-          <div className="flex gap-2 sm:gap-3 items-center">
+          <div className="flex gap-2 sm:gap-3 justify-center items-center">
             {" "}
             <Link href={"/cart"}>
               <ShoppingCart className="cursor-pointer hover:scale-105 active:scale-95" />
             </Link>
-            <Link href={"/"}>
-              <CircleUserRound className="cursor-pointer hover:scale-105 active:scale-95" />
-            </Link>
+            {user?.id ? <UserProfile user={user} /> : <AuthSwitcher />}
           </div>
         </div>
       </Container>

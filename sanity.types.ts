@@ -74,6 +74,70 @@ export type Slug = {
   source?: string;
 };
 
+export type User = {
+  _id: string;
+  _type: "user";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  firstName?: string;
+  lastName?: string;
+  userId?: string;
+  email?: string;
+  password?: string;
+  authMethod?: "email" | "google" | "github";
+  role?: "user" | "admin";
+  createdAt?: string;
+};
+
+export type Order = {
+  _id: string;
+  _type: "order";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  orderNumber?: string;
+  stripeCheckoutSessionId?: string;
+  stripeCustomerId?: string;
+  userId?: string;
+  customerName?: string;
+  email?: string;
+  stripePaymentIntentId?: string;
+  products?: Array<{
+    product?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "catalog";
+    };
+    quantity?: number;
+    _key: string;
+  }>;
+  totalPrice?: number;
+  currency?: string;
+  amountDiscount?: number;
+  status?: "pending" | "paid" | "shipped" | "delivered" | "cancelled";
+  orderDate?: string;
+};
+
+export type Reviews = {
+  _id: string;
+  _type: "reviews";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  name?: string;
+  email?: string;
+  comment?: string;
+  rating?: number;
+  catalog?: {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "catalog";
+  };
+};
+
 export type Catalog = {
   _id: string;
   _type: "catalog";
@@ -88,6 +152,7 @@ export type Catalog = {
   isNew?: boolean;
   colors?: Array<string>;
   sizes?: Array<string>;
+  rating?: number;
   imageUrl?: {
     asset?: {
       _ref: string;
@@ -199,7 +264,7 @@ export type SanityImageMetadata = {
   isOpaque?: boolean;
 };
 
-export type AllSanitySchemaTypes = SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityFileAsset | Geopoint | Slug | Catalog | Category | Product | SanityImageCrop | SanityImageHotspot | SanityImageAsset | SanityAssetSourceData | SanityImageMetadata;
+export type AllSanitySchemaTypes = SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityFileAsset | Geopoint | Slug | User | Order | Reviews | Catalog | Category | Product | SanityImageCrop | SanityImageHotspot | SanityImageAsset | SanityAssetSourceData | SanityImageMetadata;
 export declare const internalGroqTypeReferenceTo: unique symbol;
 // Source: ./src/sanity/helpers/queries.ts
 // Variable: PRODUCTS_QUERY
@@ -238,7 +303,6 @@ export type CATEGORIES_ID_QUERIESResult = Array<{
 // Variable: CATALOG_QUERY
 // Query: *[_type=='catalog']
 export type CATALOG_QUERYResult = Array<{
-  rating?: number;
   _id: string;
   _type: "catalog";
   _createdAt: string;
@@ -252,6 +316,7 @@ export type CATALOG_QUERYResult = Array<{
   isNew?: boolean;
   colors?: Array<string>;
   sizes?: Array<string>;
+  rating?: number;
   imageUrl?: {
     asset?: {
       _ref: string;
@@ -280,6 +345,7 @@ export type PRODUCT_SEARCH_QUERYResult = Array<{
   isNew?: boolean;
   colors?: Array<string>;
   sizes?: Array<string>;
+  rating?: number;
   imageUrl?: {
     asset?: {
       _ref: string;
@@ -297,6 +363,143 @@ export type PRODUCT_SEARCH_QUERYResult = Array<{
 export type CATEGORIES_QUERYResult = Array<{
   category: "hoodie" | "jeans" | "shirt" | "short" | "tshirt" | null;
 }>;
+// Variable: PRODUCT_REVIEWS_QUERY
+// Query: *[_type == "reviews"]
+export type PRODUCT_REVIEWS_QUERYResult = Array<{
+  _id: string;
+  _type: "reviews";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  name?: string;
+  email?: string;
+  comment?: string;
+  rating?: number;
+  catalog?: {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "catalog";
+  };
+}>;
+// Variable: MY_ORDERS_QUERY
+// Query: *[_type == 'order' && userId == $userId] | order(orderData desc){...,products[]{  ...,product->}}
+export type MY_ORDERS_QUERYResult = Array<{
+  _id: string;
+  _type: "order";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  orderNumber?: string;
+  stripeCheckoutSessionId?: string;
+  stripeCustomerId?: string;
+  userId?: string;
+  customerName?: string;
+  email?: string;
+  stripePaymentIntentId?: string;
+  products: Array<{
+    product: {
+      _id: string;
+      _type: "catalog";
+      _createdAt: string;
+      _updatedAt: string;
+      _rev: string;
+      name?: string;
+      description?: string;
+      price?: number;
+      category?: "hoodie" | "jeans" | "shirt" | "short" | "tshirt";
+      discountPercent?: number;
+      isNew?: boolean;
+      colors?: Array<string>;
+      sizes?: Array<string>;
+      rating?: number;
+      imageUrl?: {
+        asset?: {
+          _ref: string;
+          _type: "reference";
+          _weak?: boolean;
+          [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+        };
+        hotspot?: SanityImageHotspot;
+        crop?: SanityImageCrop;
+        _type: "image";
+      };
+    } | null;
+    quantity?: number;
+    _key: string;
+  }> | null;
+  totalPrice?: number;
+  currency?: string;
+  amountDiscount?: number;
+  status?: "cancelled" | "delivered" | "paid" | "pending" | "shipped";
+  orderDate?: string;
+}>;
+// Variable: ORDERS_QUERY
+// Query: *[_type == "order"]{  _id,  orderNumber,  stripeCheckoutSessionId,  stripeCustomerId,  userId,  customerName,  email,  stripePaymentIntentId,  totalPrice,  currency,  amountDiscount,  status,  orderDate,  products[] {    quantity,    product->{      _id,      title,      price,      image    }  }} | order(orderDate desc)
+export type ORDERS_QUERYResult = Array<{
+  _id: string;
+  orderNumber: string | null;
+  stripeCheckoutSessionId: string | null;
+  stripeCustomerId: string | null;
+  userId: string | null;
+  customerName: string | null;
+  email: string | null;
+  stripePaymentIntentId: string | null;
+  totalPrice: number | null;
+  currency: string | null;
+  amountDiscount: number | null;
+  status: "cancelled" | "delivered" | "paid" | "pending" | "shipped" | null;
+  orderDate: string | null;
+  products: Array<{
+    quantity: number | null;
+    product: {
+      _id: string;
+      title: null;
+      price: number | null;
+      image: null;
+    } | null;
+  }> | null;
+}>;
+// Variable: USER_QUERY
+// Query: *[_type == "user"] {  _id,  firstName,  lastName,  userId,  email,  authMethod,  role,  createdAt}
+export type USER_QUERYResult = Array<{
+  _id: string;
+  firstName: string | null;
+  lastName: string | null;
+  userId: string | null;
+  email: string | null;
+  authMethod: "email" | "github" | "google" | null;
+  role: "admin" | "user" | null;
+  createdAt: string | null;
+}>;
+// Variable: USER_SEARCH_QUERY
+// Query: *[_type == "user" && email == $email][0]
+export type USER_SEARCH_QUERYResult = {
+  _id: string;
+  _type: "user";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  firstName?: string;
+  lastName?: string;
+  userId?: string;
+  email?: string;
+  password?: string;
+  authMethod?: "email" | "github" | "google";
+  role?: "admin" | "user";
+  createdAt?: string;
+} | null;
+// Variable: STATS_QUERY
+// Query: {  "totalProducts": count(*[_type == "catalog"]),  "totalOrders": count(*[_type == "order"]),  "activeOrders": count(*[_type == "order" && status in ["pending", "paid", "shipped"]]),  "totalUsers": count(*[_type == "user"]),  "orders": *[_type == "order" && status in ["paid", "shipped", "delivered"]] { totalPrice }}
+export type STATS_QUERYResult = {
+  totalProducts: number;
+  totalOrders: number;
+  activeOrders: number;
+  totalUsers: number;
+  orders: Array<{
+    totalPrice: number | null;
+  }>;
+};
 
 // Query TypeMap
 import "@sanity/client";
@@ -307,5 +510,11 @@ declare module "@sanity/client" {
     "*[_type=='catalog']": CATALOG_QUERYResult;
     "*[_type=='catalog' && name match $searchParam] | order(name asc)": PRODUCT_SEARCH_QUERYResult;
     "*[_type=='catalog']{category} | order(name asc)": CATEGORIES_QUERYResult;
+    "*[_type == \"reviews\"]": PRODUCT_REVIEWS_QUERYResult;
+    "*[_type == 'order' && userId == $userId] | order(orderData desc){\n...,products[]{\n  ...,product->\n}\n}": MY_ORDERS_QUERYResult;
+    "*[_type == \"order\"]{\n  _id,\n  orderNumber,\n  stripeCheckoutSessionId,\n  stripeCustomerId,\n  userId,\n  customerName,\n  email,\n  stripePaymentIntentId,\n  totalPrice,\n  currency,\n  amountDiscount,\n  status,\n  orderDate,\n  products[] {\n    quantity,\n    product->{\n      _id,\n      title,\n      price,\n      image\n    }\n  }\n} | order(orderDate desc)": ORDERS_QUERYResult;
+    "*[_type == \"user\"] {\n  _id,\n  firstName,\n  lastName,\n  userId,\n  email,\n  authMethod,\n  role,\n  createdAt\n}": USER_QUERYResult;
+    "*[_type == \"user\" && email == $email][0]": USER_SEARCH_QUERYResult;
+    "{\n  \"totalProducts\": count(*[_type == \"catalog\"]),\n  \"totalOrders\": count(*[_type == \"order\"]),\n  \"activeOrders\": count(*[_type == \"order\" && status in [\"pending\", \"paid\", \"shipped\"]]),\n  \"totalUsers\": count(*[_type == \"user\"]),\n  \"orders\": *[_type == \"order\" && status in [\"paid\", \"shipped\", \"delivered\"]] { totalPrice }\n}": STATS_QUERYResult;
   }
 }

@@ -4,16 +4,45 @@ import Card from "@/components/cart/Card";
 import { Button } from "@/components/ui/button";
 import Container from "@/components/ui/Container";
 import { MoveRight, ShoppingBasket } from "lucide-react";
-import React from "react";
+import React, { useState } from "react";
 import useCartStore from "@/store/CartStore";
 import Link from "next/link";
+import { createCheckoutSession, Metadata } from "@/lib/createCheckoutSession";
+import { useUserStore } from "@/store/UserStore";
 
 function Cart() {
+  const [loading, setLoading] = useState(false);
   const cartItems = useCartStore((state) => state.cartItems);
   const totalPrice = useCartStore((state) => state.getTotalPrice());
   const totalDiscount = Math.ceil(totalPrice * 0.2);
-  console.log(cartItems);
+  const groupedItems = useCartStore((state) => state.getGroupedItems());
 
+  const user = useUserStore((state) => state.getUser());
+
+  const userId = user?.id;
+  if (!userId) {
+    return <Container>Please login to access & view your cart here</Container>;
+  }
+
+  const handleCheckout = async () => {
+    setLoading(true);
+    try {
+      const metadata: Metadata = {
+        orderNumber: crypto.randomUUID(),
+        customerName: user?.firstName ?? "Unknown",
+        customerEmail: user?.email ?? "Unknown",
+        userId: user?.id ?? "Unknown",
+      };
+      const checkoutUrl = await createCheckoutSession(groupedItems, metadata);
+      if (checkoutUrl) {
+        window.location.href = checkoutUrl;
+      }
+    } catch (error) {
+      console.error("Error creating checkout session", error);
+    } finally {
+      setLoading(false);
+    }
+  };
   return (
     <Container>
       <BreadCrumb location={["Home", "Cart"]} />
@@ -66,7 +95,11 @@ function Cart() {
                   Apply
                 </Button>
               </div>
-              <Button className="bg-black flex justify-center gap-1 items-center h-14 rounded-full text-white">
+              <Button
+                className="bg-black flex justify-center gap-1 items-center h-14 rounded-full text-white"
+                onClick={handleCheckout}
+                disabled={loading}
+              >
                 Go to Checkout
                 <MoveRight />
               </Button>

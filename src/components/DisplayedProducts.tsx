@@ -1,5 +1,5 @@
 "use client";
-import React, {  useState } from "react";
+import React, { useState } from "react";
 import {
   Pagination,
   PaginationContent,
@@ -34,8 +34,8 @@ function DisplayedProducts({
   const [category, setCategory] = useState("");
   const [selectedColor, setSelectedColor] = useState("");
   const [selectedSize, setSelectedSize] = useState("");
-  const mobile = useIsMobile()
-  
+  const mobile = useIsMobile();
+
   const limitProductPrice = (catalog: CATALOG_QUERYResult) => {
     return [...catalog].filter(
       (item) => item.price! <= priceRange[1] && item.price! >= priceRange[0]
@@ -63,12 +63,37 @@ function DisplayedProducts({
   const sortProducts = (catalog: CATALOG_QUERYResult) => {
     switch (sortCriteria) {
       case "high-price":
-        return [...catalog].sort((a, b) =>
-          a.price && b.price ? b.price - a.price : 0
+        return [...catalog].sort(
+          (a, b) =>
+            a.discountPercent! > 0 && b.discountPercent! > 0
+              ? Math.ceil(b.price! - b.price! * (b.discountPercent! / 100)) -
+                Math.ceil(a.price! - a.price! * (a.discountPercent! / 100))
+              : a.discountPercent! > 0
+                ? b.price! -
+                  Math.ceil(a.price! - a.price! * (a.discountPercent! / 100))
+                : b.discountPercent! > 0
+                  ? Math.ceil(
+                      b.price! - b.price! * (b.discountPercent! / 100)
+                    ) - a.price!
+                  : b.price! - a.price!
+
+          // a.price && b.price ? b.price - a.price : 0
         );
       case "low-price":
-        return [...catalog].sort((a, b) =>
-          a.price && b.price ? a.price - b.price : 0
+        return [...catalog].sort(
+          (a, b) =>
+            a.discountPercent! > 0 && b.discountPercent! > 0
+              ? Math.ceil(a.price! - a.price! * (a.discountPercent! / 100)) -
+                Math.ceil(b.price! - b.price! * (b.discountPercent! / 100))
+              : a.discountPercent! > 0
+                ? Math.ceil(a.price! - a.price! * (a.discountPercent! / 100)) -
+                  b.price!
+                : b.discountPercent! > 0
+                  ? a.price! -
+                    Math.ceil(b.price! - b.price! * (b.discountPercent! / 100))
+                  : a.price! - b.price!
+
+          // a.price && b.price ? a.price - b.price : 0
         );
       case "most-popular":
         return [...catalog].sort((a, b) => b.rating! - a.rating!); // Sort by stars (most relevant)

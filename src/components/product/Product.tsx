@@ -14,43 +14,45 @@ function Product({ product }: { product: CATALOG_QUERYResult[0] }) {
   const color = useCartStore((state) => state.color);
   const size = useCartStore((state) => state.size);
 
-  const { cartItems } = useCartStore();
-  console.log(cartItems);
   return (
     <div className="w-full flex flex-col lg:flex-row items-center lg:items-start justify-center lg:justify-around xl:justify-between gap-4 lg:gap-8 mb-12 mt-6 ">
       <div className="flex flex-col lg:flex-row gap-2 xl:gap-8">
-        <div className="flex flex-row lg:flex-col gap-1 lg:gap-4 order-2 lg:order-1 ">
-          <div className="bg-[#F0EEED] rounded-2xl flex justify-center items-center">
+        <div className="flex flex-row lg:flex-col gap-1 lg:gap-4 order-2 lg:order-1 items-center justify-center">
+          <div className="bg-[#F0EEED] rounded-2xl flex justify-center items-center h-[166px]">
             <Image
               src={urlFor(product.imageUrl!).url()}
               alt="image2"
               width={152}
               height={167}
+              className="rounded-md object-cover w-full h-full hover:scale-105 transition-all duration-700"
             />
           </div>
-          <div className="bg-[#F0EEED] rounded-2xl flex justify-center items-center">
+          <div className="bg-[#F0EEED] rounded-2xl flex justify-center items-center h-[166px]">
             <Image
               src={urlFor(product.imageUrl!).url()}
               alt="image3"
               width={152}
               height={167}
+              className="rounded-md object-cover w-full h-full hover:scale-105 transition-all duration-700"
             />
           </div>
-          <div className="bg-[#F0EEED] rounded-2xl flex justify-center items-center">
+          <div className="bg-[#F0EEED] rounded-2xl flex justify-center items-center h-[166px]">
             <Image
               src={urlFor(product.imageUrl!).url()}
               alt="image4"
               width={152}
               height={167}
+              className="rounded-md object-cover w-full h-full hover:scale-105 transition-all duration-700"
             />
           </div>
         </div>
-        <div className="bg-[#F0EEED] rounded-2xl flex justify-center items-center order-1 lg:order-2">
+        <div className="bg-[#F0EEED] rounded-2xl flex justify-center items-center order-1 lg:order-2 h-[530px]">
           <Image
             src={urlFor(product.imageUrl!).url()}
             alt="image5"
             width={444}
             height={530}
+            className="rounded-md object-cover h-full hover:scale-105 transition-all duration-700"
           />
         </div>
       </div>

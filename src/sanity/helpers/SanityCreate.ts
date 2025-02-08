@@ -3,6 +3,7 @@ import CategoriesData from "../../../CategoriesData.json" with { type: 'json' }
 import path, { basename } from "path";
 import { createReadStream } from "fs";
 import { createClient } from "next-sanity";
+import { toast } from "react-toastify";
 
 interface ProductType {
     name: string,
@@ -17,10 +18,10 @@ interface ProductType {
 
 }
 const client = createClient({
-    projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID,
-    dataset: process.env.NEXT_PUBLIC_SANITY_DATASET,
-    apiVersion: process.env.NEXT_PUBLIC_SANITY_API_VERSION,
-    token: process.env.SANITY_API_TOKEN,
+    projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID || "k8bpzkxi",
+    dataset: process.env.NEXT_PUBLIC_SANITY_DATASET || "production",
+    apiVersion: process.env.NEXT_PUBLIC_SANITY_API_VERSION || "2025-01-10",
+    token: process.env.SANITY_API_TOKEN || "skMuc5AKQcF3kAfnEkSeq4ZaZ7QmoYaYsRykHeOChitUCKAyq7q12mtxLwk9QdnEDa5QSBy1OwHnqTny9BZN0LFVR9q6on6hkhXH5JgDatt5v9afmZONMqaWc9EaGKMoEkRlQppQJrEIiXqki1m9xDz0JBk6ZXtA15U0ei30TJQ7SUwdAtfn",
     useCdn: true,
 })
 
@@ -30,7 +31,7 @@ const UploadImage = async (imageName: string) => {
         const filePath = path.join(process.cwd(), 'public', 'item', `${imageName}`);
         const imageFile = createReadStream(filePath);
         const imageAsset = await client.assets.upload("image", imageFile, { filename: basename(filePath) })
-        console.log(`Image Uploaded Successfully: ${imageAsset._id}`);
+        toast.success("Image Uploaded Successfully")
         return imageAsset._id
     } catch (error) {
         return `Failed to upload image, ${error}`
@@ -61,7 +62,8 @@ const SanityCreate = async (route: string) => {
 
                 return {
                     ...productData,
-                    imageUrl: imageAsset._id
+                    imageUrl: imageAsset._id,
+                    rating: Math.floor((Math.random() * 5) + 1)
                 };
             } catch (error) {
                 console.error(`Error processing product ${productData.name}:`, error);
@@ -84,7 +86,8 @@ const SanityCreate = async (route: string) => {
         }
         return response.json();
     }).then((res) => {
-        console.log("Products submitted successfully:", res);
+        toast.success("Products submitted successfully")
+        return res
     }).catch((error) => {
         console.error("Error submitting products:", error);
     })

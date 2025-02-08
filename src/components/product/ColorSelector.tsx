@@ -5,8 +5,6 @@ import { Check } from "lucide-react";
 import useCartStore from "@/store/CartStore";
 
 function ColorSelector({ colors }: { colors: string[] }) {
-  // console.log(id);
-
   const [tick, setTick] = useState(colors[0]);
   const setColor = useCartStore((state) => state.setColor);
   useEffect(() => setColor(tick), [setColor, tick]);

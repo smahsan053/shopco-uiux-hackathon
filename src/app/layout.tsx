@@ -9,6 +9,7 @@ import Container from "@/components/ui/Container";
 import { SanityLive } from "@/sanity/lib/live";
 import { VisualEditing } from "next-sanity";
 import { draftMode } from "next/headers";
+import { ToastContainer } from "react-toastify";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -28,6 +29,7 @@ export default async function RootLayout({
         <TopHeader />
         <Header />
         {children}
+        <ToastContainer />
         <SanityLive />
         {(await draftMode()).isEnabled && <VisualEditing />}
         <Container className="relative -bottom-24">

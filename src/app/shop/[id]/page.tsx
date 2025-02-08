@@ -190,13 +190,13 @@ export default async function ProductPage(props: {
               <div key={product._id} className="flex flex-col">
                 <BreadCrumb location={["Home", "Shop", "Men", "T-shirts"]} />
                 <Product product={product} />
+                <FeedbackTabs id={id} />
               </div>
             )
         )
       ) : (
         <p>No products available.</p>
       )}
-      <FeedbackTabs />
       <DisplayCard heading="You might also like" button={false} id={id} />
     </Container>
   );

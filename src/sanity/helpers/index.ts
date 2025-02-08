@@ -1,5 +1,5 @@
 import { sanityFetch } from '@/sanity/lib/live'
-import { CATALOG_QUERY, CATEGORIES_ID_QUERIES, CATEGORIES_QUERY, PRODUCT_SEARCH_QUERY, PRODUCTS_QUERY } from './queries'
+import { CATALOG_QUERY, CATEGORIES_ID_QUERIES, CATEGORIES_QUERY, PRODUCT_SEARCH_QUERY, PRODUCTS_QUERY, PRODUCT_REVIEWS_QUERY, MY_ORDERS_QUERY, USER_SEARCH_QUERY, ORDERS_QUERY } from './queries'
 
 export default async function getAllProducts() {
     try {
@@ -65,3 +65,61 @@ export const getAllCategory = async () => {
         return []
     }
 }
+
+export const getProductReviews = async () => {
+    try {
+        const reviews = await sanityFetch({
+            query: PRODUCT_REVIEWS_QUERY,
+        })
+        return reviews.data || []
+    } catch (error) {
+        console.error("All reviews fetching Error:", error)
+        return []
+    }
+}
+
+export const getMyOrders = async (userId: string) => {
+    if (!userId) {
+        throw new Error("User ID is required");
+    }
+
+    try {
+        const orders = await sanityFetch({
+            query: MY_ORDERS_QUERY,
+            params: { userId },
+        });
+        return orders?.data || [];
+    } catch (error) {
+        console.error("Error fetching orders:", error);
+        return [];
+    }
+};
+
+export const getAllOrders = async () => {
+    try {
+        const orders = await sanityFetch({
+            query: ORDERS_QUERY,
+        });
+        return orders?.data || [];
+    } catch (error) {
+        console.error("Error fetching orders:", error);
+        return [];
+    }
+};
+
+export const getUserFromEmail = async (email: string) => {
+    if (!email) {
+        throw new Error("Email is required");
+    }
+
+    try {
+        const orders = await sanityFetch({
+            query: USER_SEARCH_QUERY,
+            params: { email },
+        });
+        return orders?.data || [];
+    } catch (error) {
+        console.error("Error fetching user:", error);
+        return [];
+    }
+};
