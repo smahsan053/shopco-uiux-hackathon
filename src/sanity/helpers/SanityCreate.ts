@@ -74,7 +74,7 @@ const SanityCreate = async (route: string) => {
         throw new Error("Invalid route provided.");
     }
 
-    fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:3000"}/api/${route === "api" ? "catalog" : route}`, {
+    fetch(`${process.env.VERCEL_URL || "http://localhost:3000"}/api/${route === "api" ? "catalog" : route}`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
