@@ -42,9 +42,9 @@ export async function createCheckoutSession(
             mode: "payment",
             allow_promotion_codes: true,
             payment_method_types: ["card"],
-            success_url: `${process.env.VERCEL_URL || `https://${process.env.VERCEL_URL}`
+            success_url: `${`https://${process.env.VERCEL_URL}`
                 }/success?session_id={CHECKOUT_SESSION_ID}&orderNumber=${metadata.orderNumber}`,
-            cancel_url: `${process.env.VERCEL_URL || `https://${process.env.VERCEL_URL}`
+            cancel_url: `${`https://${process.env.VERCEL_URL}`
                 }/cart`,
             line_items: items.map((item) => ({
                 price_data: {
