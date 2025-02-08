@@ -42,10 +42,8 @@ export async function createCheckoutSession(
             mode: "payment",
             allow_promotion_codes: true,
             payment_method_types: ["card"],
-            success_url: `${`https://shopco-uiux-hackathon.vercel.app}`
-                }/success?session_id={CHECKOUT_SESSION_ID}&orderNumber=${metadata.orderNumber}`,
-            cancel_url: `${`https://shopco-uiux-hackathon.vercel.app}`
-                }/cart`,
+            success_url: `https://shopco-uiux-hackathon.vercel.app/success?session_id={CHECKOUT_SESSION_ID}&orderNumber=${metadata.orderNumber}`,
+            cancel_url: `https://shopco-uiux-hackathon.vercel.app/cart`,
             line_items: items.map((item) => ({
                 price_data: {
                     currency: "USD",
